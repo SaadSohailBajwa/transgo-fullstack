@@ -1,0 +1,26 @@
+
+> auth@1.0.0 start
+> nodemon server.js
+
+[33m[nodemon] 3.0.1[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
+server started on port 3000
+Executing (default): SELECT 1+1 AS result
+Executing (default): SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'users'
+connected..
+Executing (default): SELECT i.relname AS name, ix.indisprimary AS primary, ix.indisunique AS unique, ix.indkey AS indkey, array_agg(a.attnum) as column_indexes, array_agg(a.attname) AS column_names, pg_get_indexdef(ix.indexrelid) AS definition FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND t.relkind = 'r' and t.relname = 'users' GROUP BY i.relname, ix.indexrelid, ix.indisprimary, ix.indisunique, ix.indkey ORDER BY i.relname;
+Executing (default): SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'drivers'
+Executing (default): SELECT i.relname AS name, ix.indisprimary AS primary, ix.indisunique AS unique, ix.indkey AS indkey, array_agg(a.attnum) as column_indexes, array_agg(a.attname) AS column_names, pg_get_indexdef(ix.indexrelid) AS definition FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND t.relkind = 'r' and t.relname = 'drivers' GROUP BY i.relname, ix.indexrelid, ix.indisprimary, ix.indisunique, ix.indkey ORDER BY i.relname;
+yes re-sync done!
+Executing (default): SELECT "id", "phonenumber", "email", "password_hash", "firstname", "lastname", "type" FROM "users" AS "user" WHERE "user"."phonenumber" = '03001234567' AND "user"."type" = 'user' LIMIT 1;
+Executing (default): SELECT "id", "phonenumber", "email", "password_hash", "firstname", "lastname", "type" FROM "users" AS "user" WHERE "user"."phonenumber" = '03001234567' AND "user"."type" = 'user' LIMIT 1;
+Executing (default): SELECT "id", "phonenumber", "email", "password_hash", "firstname", "lastname", "type" FROM "users" AS "user" WHERE "user"."phonenumber" = '03001234567' AND "user"."type" = 'user' LIMIT 1;
+Executing (default): SELECT "id", "phonenumber", "email", "password_hash", "firstname", "lastname", "type" FROM "users" AS "user" WHERE "user"."phonenumber" = '03001234561' AND "user"."type" = 'user' LIMIT 1;
+got login request
+user
+Executing (default): SELECT "id", "phonenumber", "email", "password_hash", "firstname", "lastname", "type" FROM "users" AS "user" WHERE "user"."phonenumber" = '03001234561' AND "user"."type" = 'user' LIMIT 1;
+User with name new_first_name has now logged in to their account
+/c/Program Files/nodejs/npm: line 44:  2380 Killed                  "$NODE_EXE" "$NPM_CLI_JS" "$@"
