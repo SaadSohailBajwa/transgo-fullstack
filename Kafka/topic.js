@@ -28,6 +28,10 @@ const makeTopic = async () => {
           topic: "match",
           numPartitions: 1,
         },
+        {
+          topic:"event",
+          numPartitions: 1,
+        }
       ],
     });
 
