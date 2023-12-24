@@ -25,23 +25,53 @@ async function run(){
                 );
 
                 console.log(event,shipmentId,driverId)
+                if(event == "started"){
+                  const currentTime = new Date();
+                  console.log(
+                    "Current Time:",
+                    currentTime.toUTCString()
+                  );
 
-                await pool.query(
-                  `
+                  await pool.query(
+                    `
                     UPDATE shipment
-                    SET status = $1
-                    WHERE id = $2;`,
-                  [event,shipmentId]
-                );
+                    SET status = $1, start_time= $2
+                    WHERE id = $3;`,
+                    [event, currentTime.toUTCString(), shipmentId]
+                  );
 
-                if(event == "completed"){
+                }else if(event == "completed"){
                     await pool.query(
                       `UPDATE drivers
                     SET driver_status = 'online' 
                     WHERE id = $1;`,
                       [driverId]
                     );
+
+                    const currentTime = new Date();
+                    console.log(
+                      "Current Time:",
+                      currentTime.toLocaleTimeString()
+                    );
+
+                    await pool.query(
+                      `
+                    UPDATE shipment
+                    SET status = $1, end_time= $2
+                    WHERE id = $3;`,
+                      [event, currentTime.toUTCString(), shipmentId]
+                    );
+
+                }else{
+                  await pool.query(
+                  `
+                    UPDATE shipment
+                    SET status = $1
+                    WHERE id = $2;`,
+                  [event,shipmentId]
+                );
                 }
+                
             }
         })
     }catch(err){

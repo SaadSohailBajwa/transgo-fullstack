@@ -27,41 +27,48 @@ async function run(){
                 //todo: update status in database
 
                 await pool.query("BEGIN");
-                if(response=='reject'){
-                    
-                    await pool.query(
+                if (response == "reject") {
+                  await pool.query(
                     `UPDATE drivers
                     SET driver_status = 'online' 
-                    WHERE id = $1;`,[driverId]);
+                    WHERE id = $1;`,
+                    [driverId]
+                  );
 
-                    //shipment db logic here
+                  //shipment db logic here
 
-                    await pool.query(
+                  await pool.query(
                     `
                     UPDATE shipment
                     SET status = 'cancelled'
-                    WHERE id = $1;`,[shipmentId]);
-
-
-                }else if(response=='accept'){
-                    await pool.query(
-                      `UPDATE drivers
+                    WHERE id = $1;`,
+                    [shipmentId]
+                  );
+                } else if (response == "accept") {
+                  await pool.query(
+                    `UPDATE drivers
                     SET driver_status = 'active' 
                     WHERE id = $1;`,
-                      [driverId]
-                    );
+                    [driverId]
+                  );
 
-                    await pool.query(
-                      `
+                  await pool.query(
+                    `
                     UPDATE shipment
                     SET status = 'enroute'
                     WHERE id = $1;`,
+                    [shipmentId]
+                  );
+                } else if (response == "busy"){
+                    await pool.query(
+                      `
+                    UPDATE shipment
+                    SET status = 'cancelled'
+                    WHERE id = $1;`,
                       [shipmentId]
                     );
-
-
                 }
-                await pool.query("COMMIT")
+                 await pool.query("COMMIT");
 
             }
         })

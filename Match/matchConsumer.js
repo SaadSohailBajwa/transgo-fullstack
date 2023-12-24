@@ -33,6 +33,7 @@ async function run() {
           `consumed match on partition ${result.partition}`
         );
         // console.log(userId, driverId, destinationLat, destinationLng,startLat,startLng);
+        
         try{
 
           
@@ -57,7 +58,7 @@ async function run() {
                   WHERE id = $1`,
                   [driverId]
                 );
-                
+                //if driver online? then send him request
                 requestProducer(
                   userId,
                   driverId,
@@ -67,14 +68,17 @@ async function run() {
                   startLng,
                   shipmentId,
                 );
-            }else{
+            }else if (
+              check.rows[0].driver_status === "pending" ||
+              check.rows[0].driver_status === "active"
+            ) {
               const responseObject = {
-                response: "reject",
+                response: "busy",
                 userId,
-                driverId,
+                driverId: "empty",
                 shipmentId,
               };
-              responseProducer(responseObject)
+              responseProducer(responseObject);
             }
         }catch(err){
             console.log("errrr",err)
