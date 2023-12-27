@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setShowDriverModal, setShowUserModal } from "../slices/modalSlice";
 import axios from "axios";
 import Urls from "../../constants/Urls";
+import { setLoginState,setToken } from "../slices/authSlice";
 
 const DriverModal = ({ id }) => {
   const { showDriverModal } = useSelector((state) => state.modal);
@@ -21,6 +22,12 @@ const DriverModal = ({ id }) => {
         }
       } catch (err) {
         console.error("Error in useEffect fetchUsers:", err);
+        if (err.response && err.response.status === 403) {
+          // Dispatch actions to update authentication state
+          dispatch(setLoginState(false));
+          dispatch(setToken(""));
+          localStorage.setItem("token", "");
+        }
       }
     };
     fetchUser();

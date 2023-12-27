@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { setShowUserModal } from "../slices/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { setShowDriverModal } from "../slices/modalSlice";
+import { setShowPendingDriverModal } from "../slices/modalSlice";
 import axios from "axios";
 import Urls from "../../constants/Urls";
 import DriverModal from "./DriverModal";
+import PendingDriverModal from "./PendingDriverModal";
 import { MdVerified, MdOutlinePending } from "react-icons/md";
 import { setLoginState,setToken } from "../slices/authSlice";
 
-
-const Drivers = () => {
+const PendingDrivers = () => {
   const [rows, setRows] = useState([]);
   const [modalPropId, setModalPropId] = useState(null);
-  const { showDriverModal } = useSelector((state) => state.modal);
+  const { showPendingDriverModal } = useSelector((state) => state.modal);
   const { route } = useSelector((state) => state.nav);
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ const Drivers = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://${Urls.admin}/admin/driver/get/all`
+          `http://${Urls.admin}/admin/driver/get/all/pending`
         );
         if (response.data) {
           setRows(response.data);
@@ -43,7 +43,7 @@ const Drivers = () => {
   return (
     <div className="ml-[10%] p-8">
       <div className="flex flex-col space-y-6 py-12 px-14 bg-white border rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold">Drivers</h2>
+        <h2 className="text-2xl font-bold">Pending Drivers</h2>
         <table className="w-full border">
           <thead>
             <tr className="bg-gray-200">
@@ -69,7 +69,7 @@ const Drivers = () => {
                   {row.verified ? (
                     <MdVerified color="green" size={24} />
                   ) : (
-                    <MdOutlinePending color="yellow" size={24} />
+                    <MdOutlinePending color="orange" size={24} />
                   )}
                 </td>
                 <td className="py-2 px-4">{row.phonenumber}</td>
@@ -95,9 +95,11 @@ const Drivers = () => {
                   <span
                     className="cursor-pointer text-blue-500"
                     onClick={() => {
-                      dispatch(setShowDriverModal(!showDriverModal));
+                      dispatch(
+                        setShowPendingDriverModal(!showPendingDriverModal)
+                      );
                       console.log(row.id);
-                      console.log(showDriverModal);
+                      console.log(showPendingDriverModal);
                       setModalPropId(row.id);
                     }}
                   >
@@ -108,10 +110,10 @@ const Drivers = () => {
             ))}
           </tbody>
         </table>
-        <DriverModal id={modalPropId} />
+        <PendingDriverModal id={modalPropId} />
       </div>
     </div>
   );
 };
 
-export default Drivers;
+export default PendingDrivers;

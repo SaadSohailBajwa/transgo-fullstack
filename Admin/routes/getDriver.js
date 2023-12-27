@@ -10,9 +10,10 @@ router.get("/get/:id", async (req, res) => {
     console.log("got get a driver request");
     const id = req.params.id;
 
-    const getUser = await pool.query(`SELECT * from drivers WHERE id = $1 `, [
-      id,
-    ]);
+    const getUser = await pool.query(
+      `SELECT users.id,users.phonenumber,users.email,users.firstname, users.lastname, drivers.verified, drivers.cnic, drivers.license_number, drivers.license_plate,drivers.driver_status,drivers.license_picture_url from drivers INNER JOIN users on drivers.id = users.id WHERE users.id = $1`,
+      [id]
+    );
 
     console.log("query getDriver: success");
 

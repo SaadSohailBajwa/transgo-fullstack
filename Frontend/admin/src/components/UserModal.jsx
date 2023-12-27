@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setShowUserModal } from "../slices/modalSlice";
+import { setLoginState,setToken } from "../slices/authSlice";
 import axios from "axios";
 import Urls from "../../constants/Urls";
 
@@ -21,6 +22,12 @@ const UserModal = ({ id }) => {
         }
       } catch (err) {
         console.error("Error in useEffect fetchUsers:", err);
+        if (err.response && err.response.status === 403) {
+          // Dispatch actions to update authentication state
+          dispatch(setLoginState(false));
+          dispatch(setToken(""));
+          localStorage.setItem("token", "");
+        }
       }
     };
     fetchUser();
@@ -34,6 +41,12 @@ const UserModal = ({ id }) => {
       );
     }catch(err){
       console.log("error in user Update")
+      if (err.response && err.response.status === 403) {
+        // Dispatch actions to update authentication state
+        dispatch(setLoginState(false));
+        dispatch(setToken(""));
+        localStorage.setItem("token", "");
+      }
     }
   }
 
@@ -109,24 +122,7 @@ const UserModal = ({ id }) => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="status"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Status
-              </label>
-              <select
-                name="status"
-                id="status"
-                className="mt-1 p-2 border rounded-md w-full"
-                value={row.status || ""}
-                onChange={handleInputChange}
-              >
-                <option value="verified">Verified</option>
-                <option value="pending">Pending</option>
-              </select>
-            </div>
+            
             <button
               type="button"
               className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"

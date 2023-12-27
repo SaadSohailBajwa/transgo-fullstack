@@ -5,6 +5,7 @@ import { useSelector,useDispatch } from "react-redux";
 import UserModal from "./UserModal";
 import axios from 'axios'
 import Urls from "../../constants/Urls";
+import { setToken,setLoginState } from "../slices/authSlice";
 
 
 const Users = () => {
@@ -26,6 +27,12 @@ const Users = () => {
         }
       }catch(err){
         console.log("error in useEffect fetchUsers: ",err)
+        if (err.response && err.response.status === 403) {
+          // Dispatch actions to update authentication state
+          dispatch(setLoginState(false));
+          dispatch(setToken(""));
+          localStorage.setItem("token", "");
+        }
       }
     }
     fetchUsers()
@@ -50,7 +57,7 @@ const Users = () => {
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-100 transition">
+              <tr key={row.id} className="hover:bg-gray-100 transition" onClick={()=>console.log(row.id)}>
                 <td className="py-2 px-4">{row.id}</td>
                 <td className="py-2 px-4">{row.phonenumber}</td>
                 <td className="py-2 px-4">{row.email}</td>

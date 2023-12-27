@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
     showUserModal : false,
     showDriverModal: false,
+    showPendingDriverModal: false,
 }
 
 
@@ -16,9 +17,12 @@ const modalSlice = createSlice({
     setShowDriverModal: (state, action) => {
       state.showDriverModal = action.payload;
     },
+    setShowPendingDriverModal: (state, action) => {
+      state.showPendingDriverModal = action.payload;
+    },
   },
 });
 
-export const {setShowUserModal,setShowDriverModal} = modalSlice.actions;
+export const {setShowUserModal,setShowDriverModal,setShowPendingDriverModal} = modalSlice.actions;
 
 export default modalSlice.reducer;
