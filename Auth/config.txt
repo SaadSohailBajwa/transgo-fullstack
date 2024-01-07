@@ -1,0 +1,90 @@
+-- Drop existing tables
+DROP TABLE IF EXISTS admins CASCADE;
+DROP TABLE IF EXISTS drivers CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS vehicles CASCADE;
+DROP TABLE IF EXISTS items CASCADE;
+DROP TABLE IF EXISTS shipment CASCADE;
+DROP TABLE IF EXISTS shipment_items CASCADE;
+
+-- Create new tables
+CREATE TABLE drivers (
+    id uuid PRIMARY KEY,
+    verified boolean,
+    location geography(Point, 4326),
+    cnic varchar,
+    license_number varchar,
+    license_plate varchar,
+    driver_status varchar,
+    license_picture_url varchar
+);
+
+CREATE TABLE users (
+    id uuid PRIMARY KEY,
+    phoneNumber varchar,
+    email varchar UNIQUE,
+    password_hash varchar,
+    firstName varchar,
+    lastName varchar,
+    type varchar,
+    profile_picture_url varchar,
+    rating int
+);
+
+CREATE TABLE vehicles (
+    license_plate varchar PRIMARY KEY,
+    type varchar CHECK (type IN ('bike', 'rikshaw', 'small', 'medium', 'large')),
+    capacity varchar,
+    vehicle_picture_url varchar
+);
+
+CREATE TABLE items (
+    id uuid PRIMARY KEY,
+    description varchar,
+    weight int,
+    dimensions varchar,
+    ride_type varchar,
+    item_picture_url varchar
+);
+
+CREATE TABLE shipment (
+    id uuid PRIMARY KEY,
+    pickup_location geography(Point, 4326),
+    delivery_location geography(Point, 4326),
+    customer_id uuid,
+    driver_id uuid,
+    status varchar,
+    scheduled_pickup timestamp without time zone,
+    delivered_at timestamp without time zone,
+    fare int
+);
+
+CREATE TABLE shipment_items (
+    ride_id uuid,
+    item_id uuid,
+    PRIMARY KEY (ride_id, item_id),
+    FOREIGN KEY (ride_id) REFERENCES shipment (id),
+    FOREIGN KEY (item_id) REFERENCES items (id)
+);
+
+-- Define relationships
+ALTER TABLE drivers ADD CONSTRAINT drivers_users_fk FOREIGN KEY (id) REFERENCES users (id);
+ALTER TABLE drivers ADD CONSTRAINT drivers_vehicles_fk FOREIGN KEY (license_plate) REFERENCES vehicles (license_plate);
+ALTER TABLE shipment ADD CONSTRAINT shipment_users_customer_fk FOREIGN KEY (customer_id) REFERENCES users (id);
+ALTER TABLE shipment ADD CONSTRAINT shipment_users_driver_fk FOREIGN KEY (driver_id) REFERENCES users (id);
+ALTER TABLE shipment_items ADD CONSTRAINT shipment_items_shipment_fk FOREIGN KEY (ride_id) REFERENCES shipment (id);
+ALTER TABLE shipment_items ADD CONSTRAINT shipment_items_items_fk FOREIGN KEY (item_id) REFERENCES items (id);
+
+
+
+frontend mobile .env file:
+GOOGLE_MAPS_APIKEY=AIzaSyBO5Ejbe9ke00K0BVdD1prI24iDIu0klq4
+
+AUTH_IP=192.168.100.59
+AUTH_PORT=3000
+
+
+
+backend auth .env file:
+PORT=3000
+jwtSecret=SOdb1nSrhx4BLIWlhOUP16RjMToWhwTC
