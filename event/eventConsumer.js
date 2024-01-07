@@ -50,8 +50,8 @@ async function run(){
 
                     const currentTime = new Date();
                     console.log(
-                      "Current Time:",
-                      currentTime.toLocaleTimeString()
+                      "Current Local Time:",
+                      currentTime.toLocaleDateString(),currentTime.toLocaleTimeString
                     );
 
                     await pool.query(
@@ -62,7 +62,7 @@ async function run(){
                       [event, currentTime.toUTCString(), shipmentId]
                     );
 
-                }else{
+                }else if(event !=="offline" && event !=="online"){
                   await pool.query(
                   `
                     UPDATE shipment

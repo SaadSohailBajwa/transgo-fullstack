@@ -10,13 +10,18 @@ router.get("/get/:id", async (req, res) => {
     console.log("got get a user request");
     const id = req.params.id
 
-    const getUser = await pool.query(
+    if(id){
+      const getUser = await pool.query(
       `SELECT * from users WHERE id = $1 `,[id]
     );
+    res.status(200).json(getUser.rows);
+    }
+
+    
 
     console.log("query getUser: success");
 
-    res.status(200).json(getUser.rows);
+    
   } catch (err) {
     console.log("error from getUser: ", err);
   }

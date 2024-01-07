@@ -4,19 +4,21 @@ import { setShowPendingDriverModal } from "../slices/modalSlice";
 import axios from "axios";
 import Urls from "../../constants/Urls";
 
-const PendingDriverModal = ({ id }) => {
+const PendingDriverModal = ({ id, updateRows }) => {
   const { showPendingDriverModal } = useSelector((state) => state.modal);
   const {token} = useSelector(state=>state.auth)
   const [row, setRow] = useState({});
+  const [refresh,setRefresh] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUser = async () => {
+      console.log("id in useEffect:",id)
       try {
         const response = await axios.get(
           `http://${Urls.admin}/admin/driver/get/${id}`
         );
-        if (response.data && response.data.length > 0) {
+        if (response.data ) {
           setRow(response.data[0]);
           console.log(response.data[0]);
         }
@@ -31,14 +33,20 @@ const PendingDriverModal = ({ id }) => {
       }
     };
     fetchUser();
-  }, [id]);
+  },[refresh]);
 
   const update = async () => {
-    console.log("row when sent to update",row);
+    dispatch(setShowPendingDriverModal(!showPendingDriverModal));
+    setRow((prevRow) => ({ ...prevRow, verified: true }));
+    console.log("row when sent to update", row);
     try {
       const request = await axios.patch(
         `http://${Urls.admin}/admin/driver/verify`,
-        row,
+        {
+          id,
+          verified:true,
+        },
+        
         {
           headers:{
             token:token
@@ -46,6 +54,10 @@ const PendingDriverModal = ({ id }) => {
         }
         
       );
+
+      setRefresh(!refresh);
+      
+      console.log("update done",request)
     } catch (err) {
       console.log("error in driver verify ",err);
       if (err.response && err.response.status === 403) {
@@ -110,7 +122,7 @@ const PendingDriverModal = ({ id }) => {
               >
                 verified
               </label>
-              <select
+              {/* <select
                 name="verified"
                 id="verified"
                 className="mt-1 p-2 border rounded-md w-full"
@@ -119,20 +131,16 @@ const PendingDriverModal = ({ id }) => {
               >
                 <option value="false">Pending</option>
                 <option value="true">Verified</option>
-                
-              </select>
+              </select> */}
             </div>
             <button
               type="button"
               className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-              onClick={() => {
-                update();
-                dispatch(setShowPendingDriverModal(!showPendingDriverModal));
-              }}
+              onClick={()=>{update();updateRows()}}
             >
-              Update
+              Verify
             </button>
-            
+
             <button
               type="button"
               className="border-blue-500 border-1 rounded p-2 px-4 ml-2"
@@ -141,6 +149,16 @@ const PendingDriverModal = ({ id }) => {
               }}
             >
               Cancel
+            </button>
+            <button
+              type="button"
+              className="border-blue-500 border-1 rounded p-2 px-4 ml-2"
+              onClick={() => {
+                dispatch(setShowPendingDriverModal(!showPendingDriverModal));
+                
+              }}
+            >
+              Re-submit
             </button>
           </form>
         </div>

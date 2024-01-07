@@ -30,6 +30,7 @@ async function run(
     };
 
     const stringValue = JSON.stringify(requestObject);
+    console.log("umair",stringValue)
     //A-M, M-Z
 
     const result = await producer.send({

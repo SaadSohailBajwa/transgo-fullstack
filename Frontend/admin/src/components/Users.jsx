@@ -6,14 +6,33 @@ import UserModal from "./UserModal";
 import axios from 'axios'
 import Urls from "../../constants/Urls";
 import { setToken,setLoginState } from "../slices/authSlice";
-
+import {useTable} from 'react-table'
+import Pagination from "./pagination";
 
 const Users = () => {
-   const [rows, setRows] = useState([]);
+   const [rows, setRows] = useState([]);  
    const [modalPropId,setModalPropId] = useState(null)
+   const [currentPage,setCurrentPage] = useState(1)
+   const [rowsPerPage,setRowsPerPage] = useState(10)
    const {showUserModal} = useSelector(state=>state.modal)
    const { route } = useSelector((state) => state.nav);
    const dispatch = useDispatch();
+  
+  
+  // const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+  //   useTable({
+  //     columns: [
+  //       { Header: "ID", accessor: "id" },
+  //       { Header: "Phone Number", accessor: "phonenumber" },
+  //       { Header: "Email", accessor: "email" },
+  //       { Header: "First Name", accessor: "firstname" },
+  //       { Header: "Last Name", accessor: "lastname" },
+  //       { Header: "Profile Picture", accessor: "url" },
+  //       { Header: "Rating", accessor: "rating" },
+  //       { Header: "Edit", accessor: "id" }, // Assuming you have an EditCell component for the Edit column
+  //     ],
+  //     rowss,
+  //   });
 
   useEffect(()=>{
     const fetchUsers = async()=>{
@@ -38,12 +57,29 @@ const Users = () => {
     fetchUsers()
   },[route])
 
+const lastRowIndex = currentPage * rowsPerPage
+  const firstRowIndex = lastRowIndex - rowsPerPage
+  const currentRows = rows.slice(firstRowIndex,lastRowIndex)
+
   return (
     <div className="ml-[10%] p-8">
       <div className="flex flex-col space-y-6 py-12 px-14 bg-white border rounded-lg shadow-md">
         <h2 className="text-2xl font-bold">Users</h2>
-        <table className="w-full border">
+        <table className="w-full border" >
           <thead>
+            {/* {headerGroups.map((hg) => (
+              <tr {...hg.getHeaderGroupProps()} className="bg-gray-200">
+
+                {
+                  hg.headers.map((header)=>(
+                    <th {...header.getHeaderProps()}>
+                      {header.render("Header")}
+                    </th>
+                  ))
+                }
+
+              </tr>
+            ))} */}
             <tr className="bg-gray-200">
               <th className="py-2 px-4">ID</th>
               <th className="py-2 px-4">Phone Number</th>
@@ -56,8 +92,12 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-100 transition" onClick={()=>console.log(row.id)}>
+            {currentRows.map((row) => (
+              <tr
+                key={row.id}
+                className="hover:bg-gray-100 transition"
+                onClick={() => console.log(row.id)}
+              >
                 <td className="py-2 px-4">{row.id}</td>
                 <td className="py-2 px-4">{row.phonenumber}</td>
                 <td className="py-2 px-4">{row.email}</td>
@@ -74,7 +114,7 @@ const Users = () => {
                   />
                 </td>
                 <td className="py-2 px-4">4.6</td>
-                
+
                 <td className="py-2 px-4">
                   <span
                     className="cursor-pointer text-blue-500"
@@ -91,6 +131,8 @@ const Users = () => {
             ))}
           </tbody>
         </table>
+        
+        <Pagination totalRows={rows.length} rowsPerPage={rowsPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
         <UserModal id={modalPropId} />
       </div>
     </div>

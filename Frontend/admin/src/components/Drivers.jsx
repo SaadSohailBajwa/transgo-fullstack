@@ -8,11 +8,14 @@ import Urls from "../../constants/Urls";
 import DriverModal from "./DriverModal";
 import { MdVerified, MdOutlinePending } from "react-icons/md";
 import { setLoginState,setToken } from "../slices/authSlice";
+import Pagination from "./pagination";
 
 
 const Drivers = () => {
   const [rows, setRows] = useState([]);
   const [modalPropId, setModalPropId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const { showDriverModal } = useSelector((state) => state.modal);
   const { route } = useSelector((state) => state.nav);
   const dispatch = useDispatch();
@@ -40,6 +43,10 @@ const Drivers = () => {
     fetchUsers();
   }, []);
 
+  const lastRowIndex = currentPage * rowsPerPage;
+  const firstRowIndex = lastRowIndex - rowsPerPage;
+  const currentRows = rows.slice(firstRowIndex, lastRowIndex);
+
   return (
     <div className="ml-[10%] p-8">
       <div className="flex flex-col space-y-6 py-12 px-14 bg-white border rounded-lg shadow-md">
@@ -62,14 +69,14 @@ const Drivers = () => {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {currentRows.map((row) => (
               <tr key={row.id} className="hover:bg-gray-100 transition">
                 <td className="py-2 px-4">{row.id}</td>
                 <td className="py-2 px-4">
                   {row.verified ? (
                     <MdVerified color="green" size={24} />
                   ) : (
-                    <MdOutlinePending color="yellow" size={24} />
+                    <MdOutlinePending color="orange" size={24} />
                   )}
                 </td>
                 <td className="py-2 px-4">{row.phonenumber}</td>
@@ -108,6 +115,12 @@ const Drivers = () => {
             ))}
           </tbody>
         </table>
+        <Pagination
+          totalRows={rows.length}
+          rowsPerPage={rowsPerPage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
         <DriverModal id={modalPropId} />
       </div>
     </div>

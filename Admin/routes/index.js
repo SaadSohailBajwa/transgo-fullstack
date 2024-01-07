@@ -19,5 +19,7 @@ const updateUser = require("./updateUser")
 router.use("/user",updateUser)
 
 
+const getDashboardData = require("./getDashboardData")
+router.use("/dashboard",getDashboardData)
 
 module.exports = router;

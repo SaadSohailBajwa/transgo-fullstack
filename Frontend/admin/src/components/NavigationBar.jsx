@@ -67,7 +67,7 @@ function NavigationBar() {
       </div>
       <div className="mt-10 flex flex-col space-y-8 text-center ">
         {navLinks.map((item, index) => (
-          <Link to={`/${item.name}`}>
+          <Link key={index} to={`/${item.name}`}>
             <div
               className={
                 "flex space-x-3 px-8 py-2 rounded text-center " +
