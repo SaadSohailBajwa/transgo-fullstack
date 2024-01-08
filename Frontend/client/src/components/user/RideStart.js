@@ -60,7 +60,7 @@ const RideStart = () => {
     socket.on("response", async (response) => {
       console.log("response after connecting with driver is: ", response);
       if (response == "reject") {
-        navigation.navigate("RideType");
+        navigation.navigate("UserTabs");
         alert("driver cancelled the ride");
         socket.disconnect()
         await AsyncStorage.setItem("rideStatus","")
@@ -77,7 +77,7 @@ const RideStart = () => {
       if (event == "completed") {
         alert("ride completed");
         dispatch(setRideData(null));
-        dispatch(setRideDriverId(null));
+        // dispatch(setRideDriverId(null));
         dispatch(setRideShipmentId("0"));
         dispatch(setNearestDrivers(null));
         dispatch(setUserStartLocation(null));

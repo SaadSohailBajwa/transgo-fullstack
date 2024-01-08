@@ -191,8 +191,26 @@ async function requestConsumer() {
     await consumer.run({
       eachMessage: async (result) => {
 
-        const { userId, driverId,shipmentId} = JSON.parse(result.message.value);
-        console.log("shipmentid:",userId,driverId,shipmentId)
+        const {
+          userId,
+          driverId,
+          shipmentId,
+          startDescription,
+          destinationDescription,
+          distance,
+          duration,
+        } = JSON.parse(result.message.value);
+        console.log(
+          "shipmentid:",
+          userId,
+          driverId,
+          shipmentId,
+          startDescription,
+          destinationDescription,
+          distance,
+          duration
+          
+        );
 
         console.log(
           "consumerd driverid is:",

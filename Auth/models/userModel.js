@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      rating:{
+        type: DataTypes.STRING,
+        allowNull:true
+      }
     },
     {
       timestamps: false, // Add createdAt and updatedAt columns

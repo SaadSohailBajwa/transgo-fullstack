@@ -28,6 +28,10 @@ async function run() {
           destinationLng,
           startLat,
           startLng,
+          startDescription,
+          destinationDescription,
+          distance,
+          duration,
         } = JSON.parse(result.message.value);
         console.log(
           `consumed match on partition ${result.partition}`
@@ -67,6 +71,10 @@ async function run() {
                   startLat,
                   startLng,
                   shipmentId,
+                  startDescription,
+                  destinationDescription,
+                  distance,
+                  duration
                 );
             }else if (
               check.rows[0].driver_status === "pending" ||

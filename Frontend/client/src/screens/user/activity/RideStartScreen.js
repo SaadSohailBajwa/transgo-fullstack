@@ -168,7 +168,7 @@ console.log("ongoing inside rideStartScreen",ongoingRide);
         dispatch(setNearestDrivers(null));
         dispatch(setUserStartLocation(null));
         dispatch(setUserDestinationLocation(null));
-        dispatch(setReviewModal(true))
+        // dispatch(setReviewModal(true))
         navigation.navigate("UserTabs");
         alert("driver cancelled the ride");
         socket.disconnect();
@@ -194,12 +194,12 @@ console.log("ongoing inside rideStartScreen",ongoingRide);
       if (event == "completed") {
         alert("ride completed");
         dispatch(setRideData(null));
-        dispatch(setRideDriverId(null));
+        // dispatch(setRideDriverId(null));
         dispatch(setRideShipmentId("0"));
         dispatch(setNearestDrivers(null));
         dispatch(setUserStartLocation(null));
         dispatch(setUserDestinationLocation(null));
-        setShowReview(true)
+        dispatch(setReviewModal(true))
         navigation.navigate("UserTabs");
       }
     });
@@ -259,10 +259,10 @@ console.log("ongoing inside rideStartScreen",ongoingRide);
           <View>
             {chatNotification && <View style={styles.dot} />}
 
-            <Text style={styles.buttonText}>Chattt</Text>
+            <Text style={styles.buttonText}>Chat</Text>
           </View>
         </TouchableOpacity>
-        <Text>{eventState}</Text>
+        {/* <Text>{eventState}</Text> */}
         {/* <ReviewModal isVisible={showReview} onClose={()=>setShowReview(false)}/> */}
       </View>
     </View>

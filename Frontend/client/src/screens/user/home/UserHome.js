@@ -87,7 +87,7 @@ const UserHome = ({ navigation }) => {
       />
 
       <RideOption
-        text1="AI"
+        text1="Object Estimation"
         text2="book a vehicle of your need"
         navigation={navigation}
         navigateTo="AIPicture"

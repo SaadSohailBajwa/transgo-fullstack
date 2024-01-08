@@ -8,6 +8,10 @@ async function run(
   startLat,
   startLng,
   shipmentId,
+  startDescription,
+  destinationDescription,
+  distance,
+  duration
 ) {
   try {
     const kafka = new Kafka({
@@ -27,10 +31,14 @@ async function run(
       startLat,
       startLng,
       shipmentId,
+      startDescription,
+      destinationDescription,
+      distance,
+      duration,
     };
 
     const stringValue = JSON.stringify(requestObject);
-    console.log("umair",stringValue)
+    console.log("umair", stringValue);
     //A-M, M-Z
 
     const result = await producer.send({
@@ -49,7 +57,7 @@ async function run(
   } catch (err) {
     console.log("something bad happened " + err);
   } finally {
-    console.log("request produced to topic")
+    console.log("request produced to topic");
   }
 }
 

@@ -60,24 +60,34 @@ const EnterNumber = ({ navigation }) => {
         backgroundColor: "white",
         flex: 1,
       }}
-
     >
-      <BackButton/>
+      <BackButton
+        onPress={() => {
+          navigation.navigate("Welcome");
+        }}
+      />
       <ScrollView
         contentContainerStyle={{
-          paddingTop: 50,
+          paddingTop: 40,
           paddingHorizontal: 20,
           backgroundColor: "white",
         }}
       >
-        <Text style={{ color: "black", fontSize: 40, fontWeight: "bold",marginTop:40 }}>
+        <Text
+          style={{
+            color: "black",
+            fontSize: 40,
+            fontWeight: "bold",
+            marginTop: 40,
+          }}
+        >
           Enter Your Phone Number
         </Text>
         <Text style={{ color: "grey", fontSize: 20, marginVertical: 20 }}>
           You will receive an OTP on this number shortly
         </Text>
 
-        <View>
+        <View style={{ marginVertical: 20 }}>
           <PhoneNumberInput attemptedSubmit={attemptedSubmit} />
         </View>
 
@@ -95,8 +105,6 @@ const EnterNumber = ({ navigation }) => {
         >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
-
-        
       </ScrollView>
     </View>
   );
@@ -118,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     marginHorizontal: 0, // Side margins
     marginBottom: 20, // Bottom margin
-    borderRadius: 15, // Makes the button corners rounded
+    borderRadius: 25, // Makes the button corners rounded
     shadowColor: "#000", // Optional: Add a shadow for elevation
     shadowOffset: {
       width: 0,

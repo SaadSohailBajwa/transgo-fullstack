@@ -17,6 +17,8 @@ import Urls from "../../../constants/Urls";
 import { io } from "socket.io-client";
 import StartRide from "./StartRide";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import UserLocation from "./UserLocation";
+
 
 //this makes/starts the connection
 
@@ -224,11 +226,17 @@ const SwitchButton = () => {
               </Text>
             </TouchableOpacity>
           </View>
+          {/* <UserLocation isOnline={isOnline}/> */}
         </View>
       </>
     );
   } else {
-    return <StartRide socket={socket} />;
+    return (
+      <View>
+        <StartRide socket={socket} />
+        {/* <UserLocation isOnline={isOnline} /> */}
+      </View>
+    );
   }
 };
 

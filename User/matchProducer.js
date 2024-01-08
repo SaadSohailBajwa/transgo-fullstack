@@ -1,6 +1,17 @@
 const { Kafka } = require("kafkajs");
 
-const run = async (userId, driverId, destinationLat, destinationLng,startLat,startLng) => {
+const run = async (
+  userId,
+  driverId,
+  destinationLat,
+  destinationLng,
+  startLat,
+  startLng,
+  startDescription,
+  destinationDescription,
+  distance,
+  duration
+) => {
   try {
     const kafka = new Kafka({
       clientId: "transGO",
@@ -14,8 +25,12 @@ const run = async (userId, driverId, destinationLat, destinationLng,startLat,sta
       destinationLng,
       startLat,
       startLng,
+      startDescription,
+      destinationDescription,
+      distance,
+      duration,
     };
-    console.log("driver id :",driverId)
+    console.log("driver id :", driverId);
     const stringValue = JSON.stringify(matchObject);
 
     const producer = kafka.producer();

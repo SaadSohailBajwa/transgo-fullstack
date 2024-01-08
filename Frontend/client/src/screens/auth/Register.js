@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     marginHorizontal: 0, // Side margins
     marginBottom: 20, // Bottom margin
-    borderRadius: 15, // Makes the button corners rounded
+    borderRadius: 25, // Makes the button corners rounded
     shadowColor: "#000", // Optional: Add a shadow for elevation
     shadowOffset: {
       width: 0,

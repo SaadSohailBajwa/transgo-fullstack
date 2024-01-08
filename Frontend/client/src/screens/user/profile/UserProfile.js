@@ -54,50 +54,60 @@ const UserProfile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <MaterialCommunityIcons name={"account"} size={94} color="#A5A5A5" />
+      <View>
+        <MaterialCommunityIcons name={"account"} size={94} color="#A5A5A5" />
       <Text style={styles.header}>{user.name}</Text>
+      </View>
+      
 
       {/* {renderEditableField("Name:", user.name, "edit", () => {
         // Logic for editing name
         alert("Editing Name...");
       })} */}
-      <Text style={{ alignSelf: "flex-start" }}>Personal Info</Text>
-      <View style={styles.topContainer}>
+
+      <View style={styles.bottomContainer}>
+        <Text style={{ alignSelf: "flex-start" }}>Personal Info</Text>
+        <View style={styles.bottomInnerContainer}>
+          
         {renderEditableField(" Email:", user.email, "mail", () => {
           // Logic for editing email
           alert("Editing Email...");
         })}
 
-        {renderEditableField(" Phone Number:", user.phoneNumber, "phone", () => {
-          // Logic for editing phone number
-          alert("Editing Phone Number...");
-        })}
+        {renderEditableField(
+          " Phone Number:",
+          user.phoneNumber,
+          "phone",
+          () => {
+            // Logic for editing phone number
+            alert("Editing Phone Number...");
+          }
+        )}
+        </View>
+        
       </View>
 
-      
       <View style={styles.bottomContainer}>
         <Text style={{ alignSelf: "flex-start" }}>Personal Info</Text>
         <View style={styles.bottomInnerContainer}>
-        
-        {renderEditableField(" Terms and conditions", "", "file-text", () => {
-          // Logic for editing email
-          alert("Editing Email...");
-        })}
-        {renderEditableField(" Help", "", "help-circle", () => {
-          // Logic for editing email
-          alert("Editing Email...");
-        })}
+          {renderEditableField(" Terms and Conditions", "", "file-text", () => {
+            // Logic for editing email
+            alert("Editing Email...");
+          })}
+          {renderEditableField(" HELP", "", "help-circle", () => {
+            // Logic for editing email
+            alert("Editing Email...");
+          })}
 
-        {renderEditableField(" Logout", "", "log-out", logout)}
-      </View>
+          {renderEditableField(" LOGOUT", "", "log-out", logout)}
+        </View>
 
-      {/* <Button title="Logout" onPress={logout} />
+        {/* <Button title="Logout" onPress={logout} />
       <Text style={styles.link} onPress={openTermsAndConditions}>
         Terms and Conditions
       </Text> */}
-    </View>
       </View>
-      
+    </View>
   );
 };
 
@@ -107,9 +117,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white",
+    paddingTop:80,
   },
   header: {
     fontSize: 24,
@@ -162,7 +173,7 @@ const styles = StyleSheet.create({
     overflow: "hidden", // Add this line to hide overflowing content
   },
   bottomContainer: {
-    position: "absolute",
+    
     bottom: 30,
     width: "100%",
     height: "auto",

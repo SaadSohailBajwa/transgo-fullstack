@@ -12,7 +12,7 @@ const { users } = db;
 router.post("/register", validEmail, async (req, res) => {
   //adds a user in the database
   // id	            Auto
-  // phonenumber	Must
+  // phonenumber Must
   // firstName	    Must
   // password	    Must
 
@@ -58,7 +58,8 @@ router.post("/register", validEmail, async (req, res) => {
       lastname: lastName || "",
       email: email,
       password_hash: hashedPassword,
-      type:type
+      type:type,
+      rating:"0-0"
     });
 
     console.log(`User registered with id ${newUser.id}`);

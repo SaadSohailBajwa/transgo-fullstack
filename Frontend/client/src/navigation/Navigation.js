@@ -31,7 +31,7 @@ import { setId } from "../../slices/jwtSlice";
 import RideStartScreen from "../screens/user/activity/RideStartScreen";
 import DriverLicense from "../screens/auth/DriverLicense";
 import ProfilePicture from "../screens/auth/ProfilePicture";
-import AIPicture from "../screens/auth/AIPicture";
+import AIPicture from "../screens/user/home/AI/AIPicture";
 
 
 const Navigation = ({isLoggedIn,mode,accessToken,id}) => {

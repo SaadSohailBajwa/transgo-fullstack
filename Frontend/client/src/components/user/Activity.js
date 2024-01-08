@@ -22,8 +22,8 @@ import Colors from "../../../constants/Colors";
 const formatTime = (dateTime) => {
 
 
-    const dateString = "2024-01-06 21:27:53";
-    const utcDateTime = new Date(dateString);
+    // const dateString = "2024-01-06 21:27:53";
+    const utcDateTime = new Date(dateTime);
 
     // Add GMT+5 offset (5 * 60 minutes)
     const localTimeWithOffset = new Date(

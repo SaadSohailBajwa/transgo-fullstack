@@ -19,6 +19,7 @@ router.get("/", authorization, async (req, res) => {
         users.firstname,
         users.lastname,
         users.phonenumber,
+        users.rating,
         vehicles.license_plate,
         vehicles.type,
         vehicles.vehicle_picture_url,

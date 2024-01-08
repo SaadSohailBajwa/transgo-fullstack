@@ -17,6 +17,7 @@
     "nodemon": "^3.0.1",
     "pg": "^8.11.3",
     "react-native-qrcode-svg": "^6.2.0",
-    "react-native-share": "^10.0.2"
+    "react-native-share": "^10.0.2",
+    "@google/generative-ai": "0.1.3"
   }
 }

@@ -25,25 +25,29 @@ const DATA = [
     id: "123",
     type: "bike",
     multiplier: 1,
-    image: "https://links.papareact.com/7pf",
+    image:
+      "https://media.discordapp.net/attachments/1175347370016391263/1193277802926051410/Screenshot_2024-01-06_at_11.38.16_AM-removebg-preview.png?ex=65ac218e&is=6599ac8e&hm=861f3677354e2cd0153b23969ff792150a6b2099f1fb89b0a1b5c5478cde114f&=&format=webp&quality=lossless",
   },
   {
     id: "456",
     type: "rikshaw",
     multiplier: 2.15,
-    image: "https://links.papareact.com/7pf",
+    image:
+      "https://transgo.s3.me-south-1.amazonaws.com/Screenshot_2024-01-06_at_11.34.23_AM-removebg-preview.png",
   },
   {
     id: "789",
     type: "small",
     multiplier: 5,
-    image: "https://links.papareact.com/7pf",
+    image:
+      "https://media.discordapp.net/attachments/1175347370016391263/1193277803374837770/Screenshot_2024-01-06_at_11.39.34_AM-removebg-preview.png?ex=65ac218e&is=6599ac8e&hm=e366343bae7c655f500a5fc6a584ed2cf8d111da9b5f9949200807ddd3ef1935&=&format=webp&quality=lossless",
   },
   {
     id: "101112",
     type: "large",
     multiplier: 7.5,
-    image: "https://links.papareact.com/7pf",
+    image:
+      "https://media.discordapp.net/attachments/1175347370016391263/1193279032368828426/Screenshot_2024-01-06_at_11.44.32_AM-removebg-preview.png?ex=65ac22b3&is=6599adb3&hm=94a7dddeb740c8189cf2bcf18a78202159949bb8e4870c7c7396e298d2e3cfbe&=&format=webp&quality=lossless",
   },
 ];
 
@@ -275,7 +279,7 @@ const DriverInfo = ({ navigation }) => {
         }}
       >
         <Text style={{ color: "black", fontSize: 40, fontWeight: "bold" }}>
-          DriverInfo
+          Driver Info
         </Text>
         <Text style={{ color: "grey", fontSize: 20, marginVertical: 10 }}>
           Enter Your Details to DriverInfo
@@ -411,10 +415,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   selectedItem: {
-    backgroundColor: Colors.primary, // Change the background color to black when selected
+    // backgroundColor: Colors.primary,
+    borderWidth: 5,
+    borderColor: Colors.primary,
   },
   selectedItemText: {
-    color: "white",
+    color: Colors.primary,
     fontWeight: "800",
   },
   uploadImage: {

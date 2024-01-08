@@ -4,11 +4,11 @@ import MapView, { Marker } from "react-native-maps";
 import { useDispatch, useSelector } from 'react-redux';
 import MapViewDirections from 'react-native-maps-directions';
 import axios from 'axios';
-import { setUserDistance } from '../../../slices/locationSlice';
+import { setUserDistance, setUserDuration } from '../../../slices/locationSlice';
 
 
 const UserMap = () => {
-  const {userCurrentLocation,userStartLocation,userDestinationLocation,userDistance} = useSelector
+  const {userCurrentLocation,userStartLocation,userDestinationLocation,userDistance,userDuration} = useSelector
   ((state)=>state.userLocation)
   const dispatch = useDispatch();
 
@@ -43,9 +43,12 @@ const UserMap = () => {
         const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${userStartLocation.description}&destinations=${userDestinationLocation.description}&key=${process.env.GOOGLE_MAPS_APIKEY}`
         const response = await axios.get(URL);
         
-        console.log(response?.data?.rows[0].elements[0])
-        dispatch(setUserDistance(response.data.rows[0].elements[0]));
-        console.log(userDistance.distance.text)
+        console.log("response",response?.data?.rows[0].elements[0])
+        dispatch(setUserDistance(response?.data.rows[0].elements[0]));
+        
+        console.log(userDistance?.distance.text)
+        console.log(userDistance?.duration.text);
+        
       }catch(err){
         console.log("error get Travel time inside userMap: ",err);
       }

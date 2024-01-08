@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import Input from "../../components/auth/Input";
+import BackButton from "../../components/buttons/BackButton";
 
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -123,9 +124,14 @@ const Login = () => {
         flex: 1,
       }}
     >
+      <BackButton
+        onPress={() => {
+          navigation.navigate("EnterNumber");
+        }}
+      />
       <ScrollView
         contentContainerStyle={{
-          paddingTop: 50,
+          paddingTop: 80,
           paddingHorizontal: 20,
           backgroundColor: "white",
         }}
@@ -175,7 +181,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     marginHorizontal: 0, // Side margins
     marginBottom: 20, // Bottom margin
-    borderRadius: 15, // Makes the button corners rounded
+    borderRadius: 25, // Makes the button corners rounded
     shadowColor: "#000", // Optional: Add a shadow for elevation
     shadowOffset: {
       width: 0,

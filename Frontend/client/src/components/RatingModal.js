@@ -3,9 +3,27 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { AirbnbRating } from "react-native-ratings";  
 import Colors from "../../constants/Colors";
+import axios from "axios";
+import Urls from "../../constants/Urls";
+import { useSelector } from "react-redux";
 
-const ReviewModal = ({ isVisible, onClose, onRate }) => {
+const ReviewModal = ({ isVisible, onClose}) => {
   const [rating, setRating] = useState(0);
+  const {rideDriverId}= useSelector(state=>state.data)
+
+  const onRate = async () => {
+    try{
+      const response = await axios.post(
+        `http://${Urls.user}/user/rating`,{
+          rating:rating,
+          driverId:rideDriverId
+        }
+      );
+      console.log(response.data)
+    }catch(Err){
+      console.log("error in onRate func: ",err)
+    }
+  }
   
   return (
     <Modal
@@ -29,7 +47,7 @@ const ReviewModal = ({ isVisible, onClose, onRate }) => {
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => {
-            // onRate(rating); 
+            onRate(); 
             onClose();
             
           }}

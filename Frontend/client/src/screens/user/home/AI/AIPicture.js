@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import BackButton from "../../components/buttons/BackButton";
+import BackButton from "../../../../components/buttons/BackButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import Colors from "../../../constants/Colors";
+import Colors from "../../../../../constants/Colors";
 import { useDispatch, useSelector } from "react-redux";
-import { setProfilePicture } from "../../../slices/dataSlice";
+import { setProfilePicture } from "../../../../../slices/dataSlice";
 import * as FileSystem from "expo-file-system";
-import Urls from "../../../constants/Urls";
+import Urls from "../../../../../constants/Urls";
 import { decode } from "base64-arraybuffer";
 import axios from "axios";
 
@@ -71,7 +71,7 @@ const AIPicture = () => {
     try {
       await ImagePicker.requestCameraPermissionsAsync();
       let result = await ImagePicker.launchCameraAsync({
-        cameraType: ImagePicker.CameraType.front,
+        cameraType: ImagePicker.CameraType.back,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 0.2,
@@ -93,7 +93,7 @@ const AIPicture = () => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 1,
+        quality: 0.2,
       });
       if (!result.canceled) {
         await saveImage(result);
@@ -107,7 +107,7 @@ const AIPicture = () => {
   return (
     <View style={styles.container}>
       <BackButton
-        onPress={() => navigation.navigate("UserHome")}
+        onPress={() => navigation.navigate("UserTabs")}
         title={"AI Picture"}
       />
 
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   image: {
     height: 200,
     width: 200,
-    borderRadius: 100,
+    borderRadius: 10,
     marginBottom: 10,
   },
   confirmButton: {

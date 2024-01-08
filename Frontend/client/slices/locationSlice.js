@@ -11,6 +11,7 @@ const initialState = {
   userDestinationLocation: null,
   userDistance: null,
   driverCurrentLocation:null,
+  userDuration:null,
 };
 
 const jwtSlice = createSlice({
@@ -31,11 +32,14 @@ const jwtSlice = createSlice({
     },
     setDriverCurrentLocation:(state,action)=>{
       state.driverCurrentLocation = action.payload
+    },
+    setUserDuration:(state,action)=>{
+      state.userDuration = action.payload
     }
   },
 });
 
-export const { setUserStartLocation,setUserDestinationLocation, setUserCurrentLocation,setUserDistance ,setDriverCurrentLocation } = jwtSlice.actions;
+export const { setUserStartLocation,setUserDestinationLocation, setUserCurrentLocation,setUserDistance ,setDriverCurrentLocation,setUserDuration } = jwtSlice.actions;
 export default jwtSlice.reducer;
 
 

@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import Urls from "../../../../../constants/Urls";
 import { io } from "socket.io-client";
 import BackButton from "../../../../components/buttons/BackButton";
-
+import { calculateRating } from "../../../../utils/calculateRating";
 
 
 
@@ -74,11 +74,15 @@ const SelectDriver = () => {
       autoConnect: false,
       query: {
         userId: id||"",
-        destinationLat: userDestinationLocation.location.lat,
-        destinationLng: userDestinationLocation.location.lng,
-        startLat: userStartLocation.location.lat,
-        startLng: userStartLocation.location.lng,
+        destinationLat: userDestinationLocation?.location?.lat,
+        destinationLng: userDestinationLocation?.location?.lng,
+        startLat: userStartLocation?.location?.lat,
+        startLng: userStartLocation?.location?.lng,
         driverId: selected?.driver_id,
+        startDescription:userStartLocation?.description,
+        destinationDescription:userDestinationLocation?.description,
+        distance:userDistance?.distance?.text,
+        duration:userDistance?.duration?.text
       },
     });
   }, [selected?.driver_id]);
@@ -123,68 +127,37 @@ const SelectDriver = () => {
   
 
   const renderItem = ({ item }) => (
-    <View>
-      <TouchableOpacity
-        onPress={() => {
-          setSelected((selected) => item);
-          setRideType(item.firstname);
-          console.log("ride firstname: " + rideType);
-          console.log("selected driver id: ", selected?.driver_id);
-        }}
-        style={[
-          styles.itemContainer,
-          selected?.license_plate === item.license_plate && styles.selectedItem,
-        ]}
-      >
-        <View>
-          <Text
-            style={[
-              selected?.license_plate === item.license_plate && {
-                color: Colors.primary,
-              },
-            ]}
-          >
-            license plate :{" "}
-          </Text>
-          <Text
-            style={[
-              styles.cardText,
-              selected?.license_plate === item.license_plate && {
-                color: Colors.primary,
-              },
-            ]}
-          >
-            {item.license_plate}
-          </Text>
-          <Text
-            style={[
-              selected?.license_plate === item.license_plate && {
-                color: Colors.primary,
-              },
-            ]}
-          >
-            first name:{" "}
-          </Text>
-          <Text
-            style={[
-              styles.cardText,
-              selected?.license_plate === item.license_plate && {
-                color: Colors.primary,
-              },
-            ]}
-          >
-             {item.firstname}
-          </Text>
+    <TouchableOpacity
+      onPress={() => {
+        setSelected((selected) => item);
+        setRideType(item.firstname);
+        console.log("ride firstname: " + rideType);
+        console.log("selected driver id: ", selected?.driver_id);
+      }}
+      style={[
+        styles.itemContainer,
+        selected?.license_plate === item.license_plate && styles.selectedItem,
+      ]}
+    >
+      <View style={styles.itemDetails}>
+        <View style={styles.textContainer}>
+          <Text style={styles.label}>License Plate:</Text>
+          <Text style={styles.value}>{item.license_plate.toUpperCase()}</Text>
+          <Text style={styles.label}>First Name:</Text>
+          <Text style={styles.value}>{item.firstname.toUpperCase()}</Text>
         </View>
         <View>
           <Image
-            style={{ width: 100, height: 100, resizeMode: "contain" }}
+            style={styles.driverImage}
             source={{ uri: profilePictureBaseUrl(item?.driver_id) }}
           />
-          <Text>Rating</Text>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.label}>Rating:</Text>
+            <Text style={styles.value}>{calculateRating(item.rating)}</Text>
+          </View>
         </View>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
   if(driverResponse === 'accept'){
     socket.disconnect()
@@ -231,7 +204,7 @@ const SelectDriver = () => {
               socket.on("disconnect", () => {
                 console.log("user disconnected from backend");
               });
-              navigation.navigate("RideType");
+              navigation.navigate("UserTabs");
             }}
           />
         ) : (
@@ -297,19 +270,45 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   itemContainer: {
-    padding: 10,
     backgroundColor: Colors.input,
     marginVertical: 8,
-    borderRadius: 5,
+    borderRadius: 10,
+    borderWidth: 0,
     borderColor: Colors.primary,
     marginHorizontal: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    padding: 15,
   },
   selectedItem: {
     borderColor: Colors.primary,
     borderWidth: 5,
+  },
+  itemDetails: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textContainer: {
+    flex: 1,
+    marginRight: 10,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: Colors.primary,
+  },
+  value: {
+    fontSize: 18,
+    color: Colors.text,
+  },
+  driverImage: {
+    width: 100,
+    height: 100,
+    resizeMode: "cover",
+    borderRadius: 25,
+  },
+  ratingContainer: {
+    alignItems: "center",
+    marginTop: 10,
   },
   cardText: {
     fontSize: 20,

@@ -67,8 +67,13 @@ io.on("connection",(socket)=>{
   const startLat = socket.handshake.query.startLat;
   const startLng = socket.handshake.query.startLng;
   const driverId = socket.handshake.query.driverId;
+  const startDescription = socket.handshake.query.startDescription
+  const destinationDescription = socket.handshake.query.destinationDescription
+  const distance = socket.handshake.query.distance
+  const duration = socket.handshake.query.duration
+  
   console.log(`User with id ${userId} connected to server`)
-  // console.log(`User with id ${userId} connected to server with user startLat: ${startLat} and startLng: ${startLng} destination destinationLat: ${destinationLat} and destinationLng ${destinationLng} want to make request to driverrrrrrrrrrrrrrrrrr with id ${driverId}`)
+  // console.log(`User with id ${userId} connected to server with user startLat: ${startLat} and startLng: ${startLng} destination destinationLat: ${destinationLat} and destinationLng ${destinationLng} want to make request to driverrrrrrrrrrrrrrrrrr with id ${driverId} with start location name ${startDescription} and duration of ${duration}`)
 
   //produce lag destinationLng and userId to kafka topic logic here
   if(driverId){
@@ -78,7 +83,11 @@ io.on("connection",(socket)=>{
     destinationLat,
     destinationLng,
     startLat,
-    startLng
+    startLng,
+    startDescription,
+    destinationDescription,
+    distance,
+    duration
   );
   console.log("driverid exists therefor sent to topic")
   }

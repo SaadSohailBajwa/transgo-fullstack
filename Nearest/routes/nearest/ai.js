@@ -22,7 +22,7 @@ async function run(imageUrl) {
   const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
 
   const prompt =
-    "What are the approximate dimensions of the object in the center of this image? Give single word answer in format LxWxH inches";
+    "What are the approximate dimensions of this bed? Give single word answer in format LxWxH inches";
 
   const imageParts = [await fileToGenerativePart(imageUrl, "image/jpeg")];
 
