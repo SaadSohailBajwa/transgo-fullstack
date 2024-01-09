@@ -6,6 +6,7 @@ const pool = new Pool({
   database: "postgres",
   password: "Transgo1",
   port: 5432,
+  ssl:true,
 });
 
 module.exports = pool;

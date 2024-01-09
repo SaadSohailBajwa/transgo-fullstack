@@ -1,38 +1,39 @@
-const {Kafka} = require("kafkajs");
+const { Kafka } = require("kafkajs");
 
-const run = async (event,shipmentId,driverId) => {
-    try{
-        const kafka = new Kafka({
-            clientId: "transGO",
-            brokers: ["192.168.100.59:9092"],
-        });
+const run = async (event, shipmentId, driverId) => {
+  try {
+    const kafka = new Kafka({
+      clientId: "transGO",
+      brokers: ["20.121.127.147:9092"],
+    });
 
-        eventObject = {
-            event,
-            shipmentId,
-            driverId,
-        };
+    eventObject = {
+      event,
+      shipmentId,
+      driverId,
+    };
 
-        const stringValue = JSON.stringify(eventObject);
+    const stringValue = JSON.stringify(eventObject);
 
-        const producer = kafka.producer();
+    const producer = kafka.producer();
 
-        await producer.connect()
-        console.log("we are now connected to kafka");
+    await producer.connect();
+    console.log("we are now connected to kafka");
 
-        const result = await producer.send({
-            topic: "event",
-            messages: [{
-                value: stringValue,
-                partition: 0
-            }]
-        })
+    const result = await producer.send({
+      topic: "event",
+      messages: [
+        {
+          value: stringValue,
+          partition: 0,
+        },
+      ],
+    });
 
-        await producer.disconnect()
+    await producer.disconnect();
+  } catch (err) {
+    console.log("event producer err is :", err);
+  }
+};
 
-    }catch(err){
-        console.log("event producer err is :",err)
-    }
-}
-
-module.exports = run
+module.exports = run;

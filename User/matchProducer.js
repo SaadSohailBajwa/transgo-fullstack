@@ -15,7 +15,7 @@ const run = async (
   try {
     const kafka = new Kafka({
       clientId: "transGO",
-      brokers: ["192.168.100.59:9092"],
+      brokers: ["20.121.127.147:9092"],
     });
 
     const matchObject = {

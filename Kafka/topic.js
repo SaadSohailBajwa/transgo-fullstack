@@ -4,7 +4,7 @@ const makeTopic = async () => {
   try {
     const kafka = new Kafka({
       clientId: "transGO",
-      brokers: ["192.168.100.59:9092"], //can have multiple in this array, so when one goes down etc
+      brokers: ["20.121.127.147:9092"], //can have multiple in this array, so when one goes down etc
     });
 
     const admin = kafka.admin();
@@ -29,13 +29,14 @@ const makeTopic = async () => {
           numPartitions: 1,
         },
         {
-          topic:"event",
+          topic: "event",
           numPartitions: 1,
         },
         {
-          topic:"chat",
-          numPartitions:1,
-        }
+          topic: "chat",
+          numPartitions: 1,
+        },
+        
       ],
     });
 

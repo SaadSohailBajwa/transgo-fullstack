@@ -4,10 +4,8 @@ const app = express();
 const { Kafka } = require("kafkajs");
 const pool = require("./db");
 
-
-
 const http = require("http");
-const {Server} = require("socket.io")
+const { Server } = require("socket.io");
 
 // getting port from dotenv
 // if not PORT available then use 3002
@@ -37,9 +35,6 @@ const corsOptions = {
 //allows all
 app.use(cors());
 
-
-
-
 ////////////////////////////////////
 //socket io part
 ////////////////////////////////////
@@ -51,86 +46,71 @@ const io = new Server(server, {
   },
 });
 
-const locationProducer = require("./locationProducer")
-const responseProducer = require("./responseProducer")
-const eventProducer = require("./eventProducer")
-const chatProducer = require("./chatProducer")
-const driverSockets = {}
+const locationProducer = require("./locationProducer");
+const responseProducer = require("./responseProducer");
+const eventProducer = require("./eventProducer");
+const chatProducer = require("./chatProducer");
+const driverSockets = {};
 
-io.on("connection",async (socket)=>{
-  try{
-    const driverId = socket.handshake.query.driverId.toString() // driverId sent from frontend
-  console.log(`Driver with id ${driverId} is now online`);
-  console.log(socket.handshake.query)
-  driverSockets[driverId] = socket;  //every time driver connects 'socket obj' added to driverSockets with key driverId
+io.on("connection", async (socket) => {
+  try {
+    const driverId = socket.handshake.query.driverId.toString(); // driverId sent from frontend
+    console.log(`Driver with id ${driverId} is now online`);
+    console.log(socket.handshake.query);
+    driverSockets[driverId] = socket; //every time driver connects 'socket obj' added to driverSockets with key driverId
 
-  console.log(`uuid before db ${driverId}`)
-  setOnline = await pool.query(`UPDATE drivers SET driver_status = 'online' WHERE id = $1`,[driverId]) 
-  console.log(`uuid after db ${driverId}`);
-
-
-  socket.on('join_room',(data)=>{
-    socket.join(data)
-    console.log(`driver with id: ${socket.id} joined room: ${data}`)
-  })
-
-
-  socket.on("current_location",(data,id)=>{
-    // console.log(`current_location event: latitude is: ${data.location.lat} and longitude is: ${data.location.lng} meanwhile driver's uuid is: ${id}`)
-    locationProducer(data.location,id)  
-
-  })
-
-  socket.on("response", (rideResponse, rideData) => {
-    console.log("driver's response is:", rideResponse, rideData);
-    const data = { rideResponse, rideData };
-    responseProducer(data);
-  });
-
-  socket.on("event", (rideState,rideShipmentId,driverId) => {
-    console.log("data received on test event: ",rideState);
-    console.log("ride shipmentId: ",rideShipmentId)
-    console.log("driver id: ",driverId)
-
-    eventProducer(rideState,rideShipmentId,driverId)
-    
-  });
-
-  socket.on("message",(message,from,to)=>{
-    console.log(message,from,to)
-    chatProducer(message, from, to);
-  })
-
-  socket.on("disconnect",()=>{
-    console.log(`Driver with id ${driverId} went offline`)
-    setOffline = pool.query(
-      `UPDATE drivers SET driver_status = 'offline' WHERE id = $1`,
+    console.log(`uuid before db ${driverId}`);
+    setOnline = await pool.query(
+      `UPDATE drivers SET driver_status = 'online' WHERE id = $1`,
       [driverId]
     );
-    delete driverSockets[driverId]  //on disconnect that specific driver is deleted
-  })
+    console.log(`uuid after db ${driverId}`);
 
-  socket.on("reconnect_error", (error) => {
-    console.error("Reconnection attempt failed:", error.message);
-  });
-  }catch(err){
-    console.log("error is: ",err)
+    socket.on("join_room", (data) => {
+      socket.join(data);
+      console.log(`driver with id: ${socket.id} joined room: ${data}`);
+    });
+
+    socket.on("current_location", (data, id) => {
+      // console.log(`current_location event: latitude is: ${data.location.lat} and longitude is: ${data.location.lng} meanwhile driver's uuid is: ${id}`)
+      locationProducer(data.location, id);
+    });
+
+    socket.on("response", (rideResponse, rideData) => {
+      console.log("driver's response is:", rideResponse, rideData);
+      const data = { rideResponse, rideData };
+      responseProducer(data);
+    });
+
+    socket.on("event", (rideState, rideShipmentId, driverId) => {
+      console.log("data received on test event: ", rideState);
+      console.log("ride shipmentId: ", rideShipmentId);
+      console.log("driver id: ", driverId);
+
+      eventProducer(rideState, rideShipmentId, driverId);
+    });
+
+    socket.on("message", (message, from, to) => {
+      console.log(message, from, to);
+      chatProducer(message, from, to);
+    });
+
+    socket.on("disconnect", () => {
+      console.log(`Driver with id ${driverId} went offline`);
+      setOffline = pool.query(
+        `UPDATE drivers SET driver_status = 'offline' WHERE id = $1`,
+        [driverId]
+      );
+      delete driverSockets[driverId]; //on disconnect that specific driver is deleted
+    });
+
+    socket.on("reconnect_error", (error) => {
+      console.error("Reconnection attempt failed:", error.message);
+    });
+  } catch (err) {
+    console.log("error is: ", err);
   }
-  
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
+});
 
 // parse options
 app.use(express.json());
@@ -149,21 +129,13 @@ app.use("/driver", require("./routes/update/index"));
 
 //info
 //driver/update/*function*
-app.use("/driver",require("./routes/info/index"));
+app.use("/driver", require("./routes/info/index"));
 
 //
 // server start:
 server.listen(PORT, () => {
   console.log("server started on port 3002");
 });
-
-
-
-
-
-
-
-
 
 const query = `UPDATE drivers
 SET location = ST_SetSRID(ST_MakePoint($3, $2), 4326)
@@ -174,14 +146,14 @@ async function requestConsumer() {
   try {
     const kafka = new Kafka({
       clientId: "transGO",
-      brokers: ["192.168.100.59:9092"],
+      brokers: ["20.121.127.147:9092"],
     });
 
     const consumer = kafka.consumer({ groupId: "driver" });
 
     await consumer.connect();
 
-    console.log("consumer connected requestConsumer")
+    console.log("consumer connected requestConsumer");
 
     await consumer.subscribe({
       topic: "request",
@@ -190,7 +162,6 @@ async function requestConsumer() {
 
     await consumer.run({
       eachMessage: async (result) => {
-
         const {
           userId,
           driverId,
@@ -209,7 +180,6 @@ async function requestConsumer() {
           destinationDescription,
           distance,
           duration
-          
         );
 
         console.log(
@@ -217,19 +187,14 @@ async function requestConsumer() {
           driverId,
           JSON.parse(result.message.value)
         );
-        if(driverId.toString() in driverSockets){
-          
-          
-           // driverSockets[driverId] has a socket
+        if (driverId.toString() in driverSockets) {
+          // driverSockets[driverId] has a socket
           driverSockets[driverId].emit(
             "request",
             JSON.parse(result.message.value)
-          );  //now we are telling to emit request to that specific socket only
+          ); //now we are telling to emit request to that specific socket only
           console.log("message sent");
-          
         }
-        
-        
       },
     });
   } catch (err) {
@@ -239,21 +204,18 @@ async function requestConsumer() {
 
 requestConsumer();
 
-
-
-
-async function cancelResponseConsumer(){
-  try{
+async function cancelResponseConsumer() {
+  try {
     const kafka = new Kafka({
       clientId: "transGO",
-      brokers: ["192.168.100.59:9092"],
-    })
+      brokers: ["20.121.127.147:9092"],
+    });
 
-    const consumer = kafka.consumer({groupId: "response2"})
+    const consumer = kafka.consumer({ groupId: "response2" });
 
     await consumer.connect();
 
-    console.log("connected to driver api cancel consumer")
+    console.log("connected to driver api cancel consumer");
 
     await consumer.subscribe({
       topic: "response",
@@ -261,49 +223,41 @@ async function cancelResponseConsumer(){
     });
 
     await consumer.run({
-      eachMessage: async (result) =>{
-        const {response,driverId,shipmentId} = JSON.parse(result.message.value);
-        console.log("cancelResponseConsumer: ",response,driverId,shipmentId)
+      eachMessage: async (result) => {
+        const { response, driverId, shipmentId } = JSON.parse(
+          result.message.value
+        );
+        console.log("cancelResponseConsumer: ", response, driverId, shipmentId);
 
-        if(driverId.toString() in driverSockets && response != 'accept'){
-
+        if (driverId.toString() in driverSockets && response != "accept") {
           driverSockets[driverId].emit(
             "cancel",
             JSON.parse(result.message.value)
           );
 
-          console.log("cancel message sent to driver APP")
+          console.log("cancel message sent to driver APP");
         }
-      }
-    })
-
-  }catch(err){
-    console.log("cancel response consumer error is: ",err)
+      },
+    });
+  } catch (err) {
+    console.log("cancel response consumer error is: ", err);
   }
 }
 
 cancelResponseConsumer();
 
-
-
-
-
-
-
-
-
 async function chatConsumer() {
   try {
     const kafka = new Kafka({
       clientId: "transGO",
-      brokers: ["192.168.100.59:9092"],
+      brokers: ["20.121.127.147:9092"],
     });
 
     const consumer = kafka.consumer({ groupId: "chat1" });
 
     await consumer.connect();
 
-    console.log("chat consumer are now connected")
+    console.log("chat consumer are now connected");
 
     await consumer.subscribe({
       topic: "chat",
@@ -323,8 +277,8 @@ async function chatConsumer() {
           to
         );
 
-        if(to in driverSockets){
-            driverSockets[to].emit("message",message,from,to)
+        if (to in driverSockets) {
+          driverSockets[to].emit("message", message, from, to);
         }
       },
     });
@@ -333,4 +287,4 @@ async function chatConsumer() {
   }
 }
 
-chatConsumer()
+chatConsumer();
