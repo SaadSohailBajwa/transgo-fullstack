@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
     //3. if it exist then check if the token is valid not
 
     //the jwt.verify decodes the token and returns it back to its original form i.e payload object with user property
-    const payload = jwt.verify(jwtToken, process.env.jwtSecret);
+    const payload = jwt.verify(jwtToken, "SOdb1nSrhx4BLIWlhOUP16RjMToWhwTC");
     console.log("payload is: ",payload)
     req.user = payload.user;
 
