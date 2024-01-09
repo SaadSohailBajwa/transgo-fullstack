@@ -11,7 +11,9 @@ function jwtRefreshGenerator(user_id, type) {
   //the jwt.sign encodes the payload object into a jwt token
   //it is later decoded with jwt.verify in authorization middleware
 
-  return jwt.sign(payload, process.env.refreshToken, { expiresIn: "10d" });
+  return jwt.sign(payload, "86rxci5r7dcp086yt5dcvf0csxik68jBC", {
+    expiresIn: "10d",
+  });
 }
 
 module.exports = jwtRefreshGenerator;

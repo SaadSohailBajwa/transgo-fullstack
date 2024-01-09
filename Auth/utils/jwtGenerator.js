@@ -11,7 +11,9 @@ function jwtGenerator(user_id,type) {
   //the jwt.sign encodes the payload object into a jwt token
   //it is later decoded with jwt.verify in authorization middleware
 
-  return jwt.sign(payload, process.env.jwtSecret, { expiresIn: 3600 });
+  return jwt.sign(payload, "SOdb1nSrhx4BLIWlhOUP16RjMToWhwTC", {
+    expiresIn: 3600,
+  });
 }
 
 module.exports = jwtGenerator;

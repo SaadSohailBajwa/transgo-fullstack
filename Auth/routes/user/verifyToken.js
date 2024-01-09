@@ -26,7 +26,7 @@ router.get('/refresh',async (req,res)=>{
         }
         const payload = await jwt.verify(
           refreshToken,
-          process.env.refreshToken
+          "86rxci5r7dcp086yt5dcvf0csxik68jBC"
         );
 
         const user = await users.findOne({

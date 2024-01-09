@@ -3,8 +3,8 @@ require("dotenv").config();
 
 const region = "me-south-1";
 const bucketName = "transgo";
-const accessKeyId = process.env.AWS_ACCESS_KEY;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const accessKeyId = "AKIAZJN2Q7Y34TGXIDFG";
+const secretAccessKey = "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";
 
 const s3 = new aws.S3({
   region,
