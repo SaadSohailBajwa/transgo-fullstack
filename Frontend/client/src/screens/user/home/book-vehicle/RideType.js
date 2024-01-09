@@ -19,7 +19,8 @@ const DATA = [
     multiplier: 22,
     image:
       "https://media.discordapp.net/attachments/1175347370016391263/1193277802926051410/Screenshot_2024-01-06_at_11.38.16_AM-removebg-preview.png?ex=65ac218e&is=6599ac8e&hm=861f3677354e2cd0153b23969ff792150a6b2099f1fb89b0a1b5c5478cde114f&=&format=webp&quality=lossless",
-    name: "Bike"  
+    name: "Bike",
+    minPrice: 100,
   },
   {
     id: "456",
@@ -27,7 +28,8 @@ const DATA = [
     multiplier: 32,
     image:
       "https://transgo.s3.me-south-1.amazonaws.com/Screenshot_2024-01-06_at_11.34.23_AM-removebg-preview.png",
-    name: "Auto"
+    name: "Auto",
+    minPrice: 150,
   },
   {
     id: "789",
@@ -35,7 +37,8 @@ const DATA = [
     multiplier: 48,
     image:
       "https://media.discordapp.net/attachments/1175347370016391263/1193277803374837770/Screenshot_2024-01-06_at_11.39.34_AM-removebg-preview.png?ex=65ac218e&is=6599ac8e&hm=e366343bae7c655f500a5fc6a584ed2cf8d111da9b5f9949200807ddd3ef1935&=&format=webp&quality=lossless",
-    name: "Small Truck"  
+    name: "Small Truck",
+    minPrice: 500,
   },
   {
     id: "101112",
@@ -43,14 +46,15 @@ const DATA = [
     multiplier: 75,
     image:
       "https://media.discordapp.net/attachments/1175347370016391263/1193279032368828426/Screenshot_2024-01-06_at_11.44.32_AM-removebg-preview.png?ex=65ac22b3&is=6599adb3&hm=94a7dddeb740c8189cf2bcf18a78202159949bb8e4870c7c7396e298d2e3cfbe&=&format=webp&quality=lossless",
-    name: "Big Truck"
+    name: "Big Truck",
+    minPrice: 1000,
   },
 ];
 
 
 const RideType = () => {
   const {userDistance,userStartLocation} = useSelector((state)=>state.userLocation)
-  const {nearestDrivers} = useSelector((state)=>state.data)
+  const {nearestDrivers,rideObject} = useSelector((state)=>state.data)
   const { token } = useSelector((state) => state.token);
   const dispatch = useDispatch()
 
@@ -59,14 +63,22 @@ const RideType = () => {
 
   const navigation = useNavigation()
 
-  const calculatePrice = (distance, duration, multiplier) => {
+  const calculatePrice = (distance, duration, multiplier, rideObject) => {
     // Assuming distance is in meters, duration is in seconds, and multiplier is a numeric value
     const distanceInKilometers = distance / 1000; // Convert distance to kilometers
     const durationInMinutes = duration / 60; // Convert duration to minutes
 
-    // Example pricing formula: price = (distance in km * price per km) + (duration in min * price per min) * multiplier
+    // Example pricing formula:
+    // price = (distance in km * price per km) + (duration in min * price per min) * multiplier
+    //          + (height * height price) + (length * length price) + (weight * weight price) + (width * width price)
+
     const price = Math.floor(
-      (distanceInKilometers) * multiplier
+      (distanceInKilometers * multiplier) +
+        // (durationInMinutes * multiplier) +
+        (rideObject.height * 1) +
+        (rideObject.length * 1) +
+        (rideObject.weight * multiplier) +
+        (rideObject.width * 1)
     );
 
     return price;
@@ -149,8 +161,15 @@ const RideType = () => {
             {calculatePrice(
               userDistance?.distance?.value,
               userDistance?.duration?.value,
-              item.multiplier
-            )}
+              item.multiplier,
+              rideObject
+            )>=item.minPrice?calculatePrice(
+              userDistance?.distance?.value,
+              userDistance?.duration?.value,
+              item.multiplier,
+              rideObject
+            ):
+            item.minPrice}
           </Text>
         </View>
 

@@ -1,12 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Colors from '../../../constants/Colors';
+import { useDispatch } from 'react-redux';
+import { setRideMode } from '../../../slices/modeSlice';
 
 
-const RideOption = ({text1,text2,logo,navigateTo,navigation, props={} }) => {
+const RideOption = ({text1,text2,logo,navigateTo,navigation,mode, props={}, }) => {
+
+  const dispatch = useDispatch()
   return (
     <TouchableOpacity style={styles.container}
-    onPress={()=>navigation.navigate(navigateTo, props)}
+    onPress={()=>{
+      console.log(mode)
+      dispatch(setRideMode(mode))
+      navigation.navigate(navigateTo)
+      
+    }}
     >
       <Text style={styles.text}>{text1}</Text>
       <Text>{text2}</Text>

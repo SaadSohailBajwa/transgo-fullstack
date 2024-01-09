@@ -32,6 +32,7 @@ import RideStartScreen from "../screens/user/activity/RideStartScreen";
 import DriverLicense from "../screens/auth/DriverLicense";
 import ProfilePicture from "../screens/auth/ProfilePicture";
 import AIPicture from "../screens/user/home/AI/AIPicture";
+import Dimensions from "../screens/user/home/book-vehicle/Dimensions";
 
 
 const Navigation = ({isLoggedIn,mode,accessToken,id}) => {
@@ -228,6 +229,14 @@ const Navigation = ({isLoggedIn,mode,accessToken,id}) => {
         <Stack.Screen
           name="AIPicture"
           component={AIPicture}
+          options={{
+            headerShown: false,
+            title: "",
+          }}
+        />
+        <Stack.Screen
+          name="Dimensions"
+          component={Dimensions}
           options={{
             headerShown: false,
             title: "",

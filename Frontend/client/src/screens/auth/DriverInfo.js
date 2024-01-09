@@ -22,28 +22,28 @@ import { decode } from "base64-arraybuffer";
 
 const DATA = [
   {
-    id: "123",
+    id: "1",
     type: "bike",
     multiplier: 1,
     image:
       "https://media.discordapp.net/attachments/1175347370016391263/1193277802926051410/Screenshot_2024-01-06_at_11.38.16_AM-removebg-preview.png?ex=65ac218e&is=6599ac8e&hm=861f3677354e2cd0153b23969ff792150a6b2099f1fb89b0a1b5c5478cde114f&=&format=webp&quality=lossless",
   },
   {
-    id: "456",
+    id: "2",
     type: "rikshaw",
     multiplier: 2.15,
     image:
       "https://transgo.s3.me-south-1.amazonaws.com/Screenshot_2024-01-06_at_11.34.23_AM-removebg-preview.png",
   },
   {
-    id: "789",
+    id: "3",
     type: "small",
     multiplier: 5,
     image:
       "https://media.discordapp.net/attachments/1175347370016391263/1193277803374837770/Screenshot_2024-01-06_at_11.39.34_AM-removebg-preview.png?ex=65ac218e&is=6599ac8e&hm=e366343bae7c655f500a5fc6a584ed2cf8d111da9b5f9949200807ddd3ef1935&=&format=webp&quality=lossless",
   },
   {
-    id: "101112",
+    id: "4",
     type: "large",
     multiplier: 7.5,
     image:
@@ -61,8 +61,12 @@ const DriverInfo = ({ navigation }) => {
   const [licenseNumber, setLicenseNumberError] = useState(false);
   const [licensePlate, setLicensePlateError] = useState(false);
   const [rideTypeError, setRideTypeError] = useState(false);
+  const [lengthError, setLengthError] = useState(false);
+  const [heightError, setHeightError] = useState(false);
+  const [widthError, setWidthError] = useState(false);
 
-  const [selected, setSelected] = useState(null);
+
+  const [selected, setSelected] = useState({id:"1"});
   const [rideType, setRideType] = useState(null);
 
   //states for forms
@@ -70,6 +74,9 @@ const DriverInfo = ({ navigation }) => {
     cnic: "",
     licenseNumber: "",
     licensePlate: "",
+    length:null,
+    width:"",
+    height:""
   });
 
   const handleInputChange = (name, value) => {
@@ -107,6 +114,27 @@ const DriverInfo = ({ navigation }) => {
       allFieldsValid = false;
     } else {
       setLicensePlateError(false);
+    }
+
+    if (!formData.length) {
+      setLengthError(true);
+      allFieldsValid = false;
+    } else {
+      setLengthError(false);
+    }
+
+    if (!formData.width) {
+      setWidthError(true);
+      allFieldsValid = false;
+    } else {
+      setWidthError(false);
+    }
+
+    if (!formData.height) {
+      setHeightError(true);
+      allFieldsValid = false;
+    } else {
+      setHeightError(false);
     }
 
     // If any field is invalid, return early
@@ -151,6 +179,9 @@ const DriverInfo = ({ navigation }) => {
           licenseNumber: formData.licenseNumber,
           licensePlate: formData.licensePlate,
           type: rideType,
+          length:formData.length,
+          height:formData.height,
+          width:formData.width
         },
         {
           headers: {
@@ -253,7 +284,7 @@ const DriverInfo = ({ navigation }) => {
             selected?.id === item.id && styles.selectedItemText,
           ]}
         >
-          Type: {item.type}
+          {item.type}{(item.type=="small" || item.type=="large") && " truck"}
         </Text>
 
         <Image
@@ -282,7 +313,7 @@ const DriverInfo = ({ navigation }) => {
           Driver Info
         </Text>
         <Text style={{ color: "grey", fontSize: 20, marginVertical: 10 }}>
-          Enter Your Details to DriverInfo
+          Enter Your Personal and Vehicle details
         </Text>
 
         <View style={{ marginVertical: 20 }}>
@@ -316,7 +347,9 @@ const DriverInfo = ({ navigation }) => {
               error={licensePlate}
               errorMessage={"License Plate Number cannot be empty"}
             />
-
+            <Text style={{ color: "grey", fontSize: 20, marginVertical: 10 }}>
+              Vehicle type
+            </Text>
             <FlatList
               data={DATA}
               keyExtractor={(item) => item.id}
@@ -324,9 +357,41 @@ const DriverInfo = ({ navigation }) => {
               horizontal={true}
             />
             <Text>{rideTypeError && "please select ride type"}</Text>
+            <Text style={{ color: "grey", fontSize: 20, marginVertical: 10 }}>
+              Vehicle Dimensions
+            </Text>
+            <Input
+              placeholderText="Enter your Vehicle Length"
+              label="Length/Depth"
+              iconName="arrow-expand"
+              value={formData.length}
+              onChange={(text) => handleInputChange("length", text)}
+              error={lengthError}
+              errorMessage={"*"}
+            />
+            <Input
+              placeholderText="Enter your Vehicle Height"
+              label="Height"
+              iconName="arrow-expand-vertical"
+              value={formData.height}
+              onChange={(text) => handleInputChange("height", text)}
+              error={heightError}
+              errorMessage={"*"}
+            />
+            <Input
+              placeholderText="Enter your Vehicle Width"
+              label="Width"
+              iconName="arrow-expand-horizontal"
+              value={formData.width}
+              onChange={(text) => handleInputChange("width", text)}
+              error={widthError}
+              errorMessage={"*"}
+            />
           </ScrollView>
         </View>
-
+        <Text style={{ color: "grey", fontSize: 20, marginVertical: 10 }}>
+          Required*
+        </Text>
         <TouchableOpacity
           style={styles.uploadImage}
           onPress={() => navigation.navigate("DriverLicense")}

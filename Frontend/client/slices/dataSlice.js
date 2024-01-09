@@ -10,6 +10,7 @@ const initialState = {
   rideShipmentId: null,
   profilePicture: null,
   licensePicture: null,
+  rideObject:"",
 };
 
 const dataSlice = createSlice({
@@ -40,6 +41,9 @@ const dataSlice = createSlice({
     setLicensePicture: (state, action) => {
       state.licensePicture = action.payload;
     },
+    setRideObject:(state,action) => {
+      state.rideObject = action.payload
+    }
   },
 });
 
@@ -52,6 +56,7 @@ export const {
   setRidePhase,
   setProfilePicture,
   setLicensePicture,
+  setRideObject
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

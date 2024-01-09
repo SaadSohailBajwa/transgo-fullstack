@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  mode: "user"
+  mode: "user",
+  rideMode:""
 };
 //mode will be true if user selects driver option
 const modalSlice = createSlice({
@@ -11,8 +12,11 @@ const modalSlice = createSlice({
     setMode: (state,action) => {
       state.mode = action.payload
     },
+    setRideMode: (state,action) => {
+      state.rideMode =  action.payload
+    }
   },
 });
 
-export const { setMode } = modalSlice.actions;
+export const { setMode,setRideMode } = modalSlice.actions;
 export default modalSlice.reducer;

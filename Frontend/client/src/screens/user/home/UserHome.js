@@ -84,13 +84,15 @@ const UserHome = ({ navigation }) => {
         text2="book a vehicle of your need"
         navigation={navigation}
         navigateTo="StartEndLocation"
+        mode={"default"}
       />
 
       <RideOption
         text1="Object Estimation"
         text2="book a vehicle of your need"
         navigation={navigation}
-        navigateTo="AIPicture"
+        navigateTo="StartEndLocation"
+        mode={"ai"}
       />
 
       <ReviewModal

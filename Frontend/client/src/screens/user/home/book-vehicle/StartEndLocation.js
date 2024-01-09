@@ -25,6 +25,7 @@ const StartEndLocation = () => {
     userDestinationLocation,
     userDistance,
   } = useSelector((state) => state.userLocation);
+  const {rideMode} = useSelector((state=>state.mode))
   const dispatch = useDispatch();
 
   const [disabled, setDisabled] = useState(true);
@@ -35,6 +36,7 @@ const StartEndLocation = () => {
     dispatch(setUserStartLocation(null));
     dispatch(setUserDestinationLocation(null));
     dispatch(setUserDistance(null));
+    console.log("ride mode in startend",rideMode)
   }, []);
   useEffect(()=>{
 if(userStartLocation == null || userDestinationLocation == null){
@@ -111,8 +113,15 @@ if(userStartLocation == null || userDestinationLocation == null){
 
       <View style={styles.bottomContainer}>
         <ContinueButton
-          text={"Select Ride"}
-          onPress={() => navigation.navigate("RideType")}
+          text={"Object Info"}
+          onPress={() =>{
+            console.log("ride in contnue",rideMode)
+            if(rideMode == "ai"){
+              navigation.navigate("AIPicture")
+            }else if(rideMode == "default"){
+              navigation.navigate("Dimensions")
+            }
+           }}
           disabled={disabled}
         />
       </View>
