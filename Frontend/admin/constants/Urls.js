@@ -1,4 +1,4 @@
-const AUTH_IP='192.168.100.59'
+const AUTH_IP = "20.118.211.142";
 const AUTH_PORT='3000'
 const USER_PORT='3001'
 const DRIVER_PORT='3002'
