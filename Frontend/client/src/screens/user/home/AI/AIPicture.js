@@ -57,6 +57,7 @@ const AIPicture = () => {
           AIPictureUrl.config.url.split("?")[0]
         }`
       );
+      // http://20.118.211.142:3002/driver/AI?url=https://transgo.s3.me-south-1.amazonaws.com/AI-picture/2b28c012-35b5-4e6c-9bea-4b8bb3703b08
       const AIText = await AIResult.text();
       console.log(AIText, "lllllllllllll");
 

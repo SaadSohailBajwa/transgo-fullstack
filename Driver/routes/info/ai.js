@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI("AIzaSyBRdPLg-18gf9UR-x4IqrVrdzQ1wQfkK0w");
 
 // Converts local file information to a GoogleGenerativeAI.Part object.
 async function fileToGenerativePart(imageUrl, mimeType) {
-  const res = await axios.get(imageUrl);
+  const res = await fetch(imageUrl);
   const blob = await res.blob();
   const arrayBuffer = await blob.arrayBuffer();
   return {
