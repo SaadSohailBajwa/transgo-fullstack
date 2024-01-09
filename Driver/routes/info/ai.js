@@ -1,12 +1,13 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const fetch = require("node-fetch");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI("AIzaSyDtTyPWO56Ml8tzhxxJfALz3JtW3Ev0348");
 
 // Converts local file information to a GoogleGenerativeAI.Part object.
 async function fileToGenerativePart(imageUrl, mimeType) {
-  const res = await fetch(imageUrl);
+  const res = await axios.get(imageUrl);
   const blob = await res.blob();
   const arrayBuffer = await blob.arrayBuffer();
   return {
