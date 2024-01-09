@@ -1,12 +1,12 @@
 const jwtGenerator = require("../../utils/jwtGenerator");
 const jwtRefreshGenerator = require("../../utils/jwtRefreshGenerator");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const express = require("express");
 const router = express.Router();
 
 // requiring db object from the path
 const db = require("../../models/index");
-const { users,drivers } = db;
+const { users, drivers } = db;
 
 //for login we need :
 //phonenumber
@@ -21,7 +21,7 @@ router.post("/login", async (req, res) => {
 
     // 2. Check if the user exists in the 'users' table
     const user = await users.findOne({
-      where: { phonenumber: phoneNumber,type:type },
+      where: { phonenumber: phoneNumber, type: type },
     });
 
     // 3. Check if the type is 'driver'
@@ -37,13 +37,8 @@ router.post("/login", async (req, res) => {
       }
     }
 
-    
-
     // 6. Check if the incoming hash of the password is the same as the database password_hash
-    const validPassword = await bcrypt.compare(
-      password,
-      user.password_hash
-    );
+    const validPassword = await bcrypt.compare(password, user.password_hash);
 
     if (!validPassword) {
       return res.status(401).json("Password or email is incorrect");
@@ -52,8 +47,8 @@ router.post("/login", async (req, res) => {
     // 7. Give them a access JWT token
     const token = jwtGenerator(user.id, type);
     // 8. Give them a refresh JWT token
-    const refreshToken = jwtRefreshGenerator(user.id,type)
-    console.log("refresh token generated in login route: ",refreshToken)
+    const refreshToken = jwtRefreshGenerator(user.id, type);
+    console.log("refresh token generated in login route: ", refreshToken);
 
     const { firstname, lastname, email, id } = user;
 
@@ -74,29 +69,6 @@ router.post("/login", async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // try {
 //   console.log("got login request");

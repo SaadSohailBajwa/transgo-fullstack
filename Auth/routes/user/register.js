@@ -1,5 +1,5 @@
 const jwtGenerator = require("../../utils/jwtGenerator");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const express = require("express");
 const router = express.Router();
 const jwtRefreshGenerator = require("../../utils/jwtRefreshGenerator");
@@ -23,12 +23,17 @@ router.post("/register", validEmail, async (req, res) => {
 
   try {
     // destructure
-    const { phoneNumber, firstName, lastName, email, password,type } = req.body;
+    const { phoneNumber, firstName, lastName, email, password, type } =
+      req.body;
 
     // Check if user exists
-    const emailExist = await users.findOne({ where: { email: email,type:type } });
-    
-    const phoneNumberExist = await users.findOne({ where: { phonenumber: phoneNumber,type:type } });
+    const emailExist = await users.findOne({
+      where: { email: email, type: type },
+    });
+
+    const phoneNumberExist = await users.findOne({
+      where: { phonenumber: phoneNumber, type: type },
+    });
 
     if (phoneNumberExist) {
       return res.status(401).send("phone number already in use");
@@ -58,18 +63,27 @@ router.post("/register", validEmail, async (req, res) => {
       lastname: lastName || "",
       email: email,
       password_hash: hashedPassword,
-      type:type,
-      rating:"0-0"
+      type: type,
+      rating: "0-0",
     });
 
     console.log(`User registered with id ${newUser.id}`);
 
     // Generate JWT token
-    const token = jwtGenerator(newUser.id,type);
-    const refreshToken = jwtRefreshGenerator(newUser.id,type)
-    const id = newUser.id
-    res.json({ token, firstName, lastName, email, phoneNumber,type,id,refreshToken });
-    console.log(token)
+    const token = jwtGenerator(newUser.id, type);
+    const refreshToken = jwtRefreshGenerator(newUser.id, type);
+    const id = newUser.id;
+    res.json({
+      token,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      type,
+      id,
+      refreshToken,
+    });
+    console.log(token);
   } catch (err) {
     console.log(err.message);
     res.status(500).send("server error");
