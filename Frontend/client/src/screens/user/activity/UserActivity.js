@@ -47,7 +47,7 @@ const UserActivity = () => {
         console.log("response from fetch rides is:",response.data[0])
         
 const ongoingRide = response.data.find(
-  (ride) => ride.status !== "completed" && ride.status !== "cancelled" && ride.status !== "offline" 
+  (ride) => ride.status !== "completed" && ride.status !== "cancelled" && ride.status !== "offline" && ride.status !== "pending"
 );
 
 if (ongoingRide) {

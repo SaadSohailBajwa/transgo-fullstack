@@ -16,4 +16,8 @@ git push origin
 
 npm start
 
-transgo!
+db pass:
+Transgo1 
+
+
+https://saadsohailbajwa.github.io/transgo-admin.github.io/

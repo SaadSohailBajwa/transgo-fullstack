@@ -10,7 +10,7 @@ export const calculateRating = (inputString) => {
     const result = (numerator / denominator).toFixed(1); // Limit to one decimal place
     return result;
   } else {
-    console.error("Invalid denominator:", denominator);
+    console.log("Invalid denominator:", denominator);
     return null;
   }
 };
