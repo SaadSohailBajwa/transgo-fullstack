@@ -11,13 +11,69 @@ import * as FileSystem from "expo-file-system";
 import Urls from "../../../../../constants/Urls";
 import { decode } from "base64-arraybuffer";
 import axios from "axios";
+import { setNearestDrivers } from "../../../../../slices/dataSlice";
+
+
+
+const determineRideType = (jsonString) => {
+  try {
+    // Remove triple backticks from the string
+    const cleanedString = jsonString.replace(/```json|```|json/g, "");
+    console.log("cleaned ",cleanedString)
+    const data = JSON.parse(cleanedString);
+    console.log("Parsed JSON:", data);
+    const dimensions = data.dimensions;
+    const weight = data.weight;
+    
+    if (dimensions && weight) {
+      const { length, width, height } = dimensions;
+      // Assuming dimensions are in inches, convert them to cubic centimeters
+      const totalDimensions = length * 2.54 * width * 2.54 * height * 2.54;
+      
+
+      if (totalDimensions <= 457200 && weight <= 2) {
+        
+        return "bike";
+      } else if (totalDimensions <= 785400 && weight <= 3.5) {
+        
+        return "rikshaw";
+      } else if (totalDimensions <= 1135200 && weight <= 7) {
+        
+        return "small";
+      } else {
+        
+        return "large";
+      }
+    }
+  } catch (error) {
+    console.error("Error parsing JSON:", error.message);
+  }
+
+  return "Unable to determine ride type";
+};
+
+
+
+
+
+
+
+
+
+
+
 
 const AIPicture = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.token);
+  const { userDistance, userStartLocation } = useSelector(
+    (state) => state.userLocation
+  );
   const [image, setImage] = useState();
   const [result, setResult] = useState(null);
+  const [rideType, setRideType] = useState(null);
+  const { nearestDrivers, rideObject } = useSelector((state) => state.data);
 
   const saveImage = async (image) => {
     console.log("SAVING IMAGE!");
@@ -62,6 +118,7 @@ const AIPicture = () => {
       console.log(AIText, "lllllllllllll");
 
       setResult(AIText);
+      setRideType(determineRideType(AIText))
     } catch (err) {
       console.log("Error inside saveImage in AIPicture", err);
     }
@@ -105,6 +162,58 @@ const AIPicture = () => {
     console.log("Uploading an image...");
   };
 
+
+
+
+
+
+
+
+
+
+
+
+  const searchDriver = async () => {
+    try {
+      console.log(token);
+      const response = await axios.get(
+        `http://${Urls.nearest}/nearest/search`,
+        {
+          params: {
+            lat: userStartLocation?.location?.lat,
+            lng: userStartLocation?.location?.lng,
+            radius: "1000",
+            type: rideType,
+          },
+          headers: {
+            token: token, // Include the JWT token in the Authorization header
+          },
+        }
+      );
+      if (response.status === 200) {
+        dispatch(setNearestDrivers([response.data?.[0]]));
+        console.log(response.data?.[0])
+        navigation.navigate("SelectDriver");
+      } else if (response.status === 403) {
+      }
+
+      console.log("he;o", nearestDrivers);
+    } catch (err) {
+      console.log("error is:", err);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <View style={styles.container}>
       <BackButton
@@ -116,12 +225,12 @@ const AIPicture = () => {
         <Text style={styles.title}>AI Picture</Text>
         {image && <Image style={styles.image} source={{ uri: image }} />}
         {image && (
-          <TouchableOpacity style={styles.confirmButton}>
+          <TouchableOpacity style={styles.confirmButton} onPress={searchDriver}>
             <MaterialCommunityIcons name="check" size={24} color="white" />
             <Text style={styles.confirmButtonText}>Confirm Picture</Text>
           </TouchableOpacity>
         )}
-        {result && <Text>{result}</Text>}
+        {result && <Text>{result} ride type: {determineRideType(result)} rideType state: {rideType}</Text>}
       </View>
 
       <View style={styles.bottomButtonsContainer}>

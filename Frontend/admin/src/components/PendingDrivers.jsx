@@ -69,62 +69,67 @@ const PendingDrivers = () => {
             </tr>
           </thead>
           <tbody>
-            {currentRows.map((row) => (
-              row.verified ? null :
-                
-              <tr key={row.id} className="hover:bg-gray-100 transition">
-                <td className="py-2 px-4">{row.id}</td>
-                <td className="py-2 px-4">
-                  {row.verified ? (
-                    <MdVerified color="green" size={24} />
-                  ) : (
-                    <MdOutlinePending color="orange" size={24} />
-                  )}
-                </td>
-                <td className="py-2 px-4">{row.phonenumber}</td>
-                <td className="py-2 px-4">{row.email}</td>
-                <td className="py-2 px-4">{row.firstname}</td>
-                <td className="py-2 px-4">{row.lastname}</td>
-                <td className="py-2 px-4">{row.cnic}</td>
-                <td className="py-2 px-4">{row.license_number}</td>
-                <td className="py-2 px-4">{row.license_plate}</td>
-                <td className="py-2 px-4">{row.driver_status}</td>
-                <td className="py-2 px-4">
-                  <img
-                    src={
-                      row.license_picture_url ||
-                      "https://pbs.twimg.com/profile_images/1438817879332425730/anYBmFZz_400x400.jpg"
-                    }
-                    alt="Profile"
-                    className="w-8 h-8 rounded-full"
-                  />
-                </td>
+            {currentRows.map((row) =>
+              row.verified ? null : (
+                <tr key={row.id} className="hover:bg-gray-100 transition">
+                  <td className="py-2 px-4">{row.id}</td>
+                  <td className="py-2 px-4">
+                    {row.verified ? (
+                      <MdVerified color="green" size={24} />
+                    ) : (
+                      <MdOutlinePending color="orange" size={24} />
+                    )}
+                  </td>
+                  <td className="py-2 px-4">{row.phonenumber}</td>
+                  <td className="py-2 px-4">{row.email}</td>
+                  <td className="py-2 px-4">{row.firstname}</td>
+                  <td className="py-2 px-4">{row.lastname}</td>
+                  <td className="py-2 px-4">{row.cnic}</td>
+                  <td className="py-2 px-4">{row.license_number}</td>
+                  <td className="py-2 px-4">{row.license_plate}</td>
+                  <td className="py-2 px-4">{row.driver_status}</td>
+                  <td className="py-2 px-4">
+                    <img
+                      src={
+                        `https://transgo.s3.me-south-1.amazonaws.com/license-picture/${row.id}` ||
+                        "https://pbs.twimg.com/profile_images/1438817879332425730/anYBmFZz_400x400.jpg"
+                      }
+                      alt="Profile"
+                      className="w-8 h-8 rounded-full"
+                    />
+                  </td>
 
-                <td className="py-2 px-4">
-                  <span
-                    className="cursor-pointer text-blue-500"
-                    onClick={() => {
-                      setModalPropId(null);
-                      dispatch(
-                        setShowPendingDriverModal(!showPendingDriverModal)
-                      );
-                      console.log(row.id);
-                      console.log(showPendingDriverModal);
+                  <td className="py-2 px-4">
+                    <span
+                      className="cursor-pointer text-blue-500"
+                      onClick={() => {
+                        setModalPropId(null);
+                        dispatch(
+                          setShowPendingDriverModal(!showPendingDriverModal)
+                        );
+                        console.log(row.id);
+                        console.log(showPendingDriverModal);
 
-                      setModalPropId(row.id);
-                    }}
-                  >
-                    <BsFillPencilFill />
-                  </span>
-                </td>
-              </tr>
-            ))}
+                        setModalPropId(row.id);
+                      }}
+                    >
+                      <BsFillPencilFill />
+                    </span>
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
-        {modalPropId && <PendingDriverModal id={modalPropId} updateRows={()=>{
-          setRows( rows.filter((row) => row.id !== modalPropId ) )
-          console.log("avcas")
-        }} />}
+        {modalPropId && (
+          <PendingDriverModal
+            id={modalPropId}
+            updateRows={() => {
+              setRows(rows.filter((row) => row.id !== modalPropId));
+              console.log("avcas");
+            }}
+          />
+        )}
         <Pagination
           totalRows={rows.length}
           rowsPerPage={rowsPerPage}

@@ -65,8 +65,7 @@ const DriverInfo = ({ navigation }) => {
   const [heightError, setHeightError] = useState(false);
   const [widthError, setWidthError] = useState(false);
 
-
-  const [selected, setSelected] = useState({id:"1"});
+  const [selected, setSelected] = useState({ id: "1" });
   const [rideType, setRideType] = useState(null);
 
   //states for forms
@@ -74,9 +73,9 @@ const DriverInfo = ({ navigation }) => {
     cnic: "",
     licenseNumber: "",
     licensePlate: "",
-    length:null,
-    width:"",
-    height:""
+    length: null,
+    width: "",
+    height: "",
   });
 
   const handleInputChange = (name, value) => {
@@ -93,7 +92,7 @@ const DriverInfo = ({ navigation }) => {
 
   const registerRequest = async () => {
     let allFieldsValid = true;
-
+    console.log(formData, "xxxxx");
     if (!formData.cnic) {
       setCnicError(true);
       allFieldsValid = false;
@@ -141,13 +140,17 @@ const DriverInfo = ({ navigation }) => {
     if (!allFieldsValid) {
       return;
     }
+    console.log("here");
 
     const profilePictureBase64 = profilePicture?.base64Content;
-    const profilePictureArrayBuffer = decode(profilePictureBase64);
+
+    const profilePictureArrayBuffer =
+      profilePictureBase64 && decode(profilePictureBase64);
 
     const licensePictureBase64 = licensePicture?.base64Content;
-    const licensePictureArrayBuffer = decode(licensePictureBase64);
-
+    const licensePictureArrayBuffer =
+      licensePictureBase64 && decode(licensePictureBase64);
+    //\\
     try {
       console.log(Urls.driver);
       // const imageFormData = new FormData();
@@ -179,9 +182,9 @@ const DriverInfo = ({ navigation }) => {
           licenseNumber: formData.licenseNumber,
           licensePlate: formData.licensePlate,
           type: rideType,
-          length:formData.length,
-          height:formData.height,
-          width:formData.width
+          length: formData.length,
+          height: formData.height,
+          width: formData.width,
         },
         {
           headers: {
@@ -206,49 +209,52 @@ const DriverInfo = ({ navigation }) => {
         navigation.navigate(`DriverPending`);
       }
 
-      const profilePictureSignedURL = await axios.get(
-        `http://${Urls.driver}/driver/aws/get/signedurl/profile-picture`,
-        {
-          headers: {
-            token,
-          },
-        }
-      );
-      console.log("got the signed url", profilePictureSignedURL.data.url);
-
-      const licensePictureSignedUrl = await axios.get(
-        `http://${Urls.driver}/driver/aws/get/signedurl/license-picture`,
-        {
-          headers:{
-            token,
-          },
-        }
-      );
-
-      if (profilePictureSignedURL) {
-        const profilePictureUrl = await axios.put(
-          profilePictureSignedURL.data.url,
-          profilePictureArrayBuffer,
+      if (profilePictureArrayBuffer) {
+        const profilePictureSignedURL = await axios.get(
+          `http://${Urls.driver}/driver/aws/get/signedurl/profile-picture`,
           {
             headers: {
-              "Content-Type": "image/jpeg",
+              token,
             },
           }
         );
-        console.log("profilePictureUrl: ", profilePictureUrl);
-      }
+        console.log("got the signed url", profilePictureSignedURL.data.url);
 
-      if(licensePictureSignedUrl){
-        const licensePictureUrl = await axios.put(
-          licensePictureSignedUrl.data.url,
-          licensePictureArrayBuffer,
-          {
-            headers:{
-              "Content-Type":"image/jpeg",
+        if (profilePictureSignedURL) {
+          const profilePictureUrl = await axios.put(
+            profilePictureSignedURL.data.url,
+            profilePictureArrayBuffer,
+            {
+              headers: {
+                "Content-Type": "image/jpeg",
+              },
             }
+          );
+          console.log("profilePictureUrl: ", profilePictureUrl);
+        }
+      }
+      if (licensePictureArrayBuffer) {
+        const licensePictureSignedUrl = await axios.get(
+          `http://${Urls.driver}/driver/aws/get/signedurl/license-picture`,
+          {
+            headers: {
+              token,
+            },
           }
-        )
-        console.log("licensePictureUrl: ", licensePictureUrl);
+        );
+
+        if (licensePictureSignedUrl) {
+          const licensePictureUrl = await axios.put(
+            licensePictureSignedUrl.data.url,
+            licensePictureArrayBuffer,
+            {
+              headers: {
+                "Content-Type": "image/jpeg",
+              },
+            }
+          );
+          console.log("licensePictureUrl: ", licensePictureUrl);
+        }
       }
 
       console.log("Data:", response.data);
@@ -284,7 +290,8 @@ const DriverInfo = ({ navigation }) => {
             selected?.id === item.id && styles.selectedItemText,
           ]}
         >
-          {item.type}{(item.type=="small" || item.type=="large") && " truck"}
+          {item.type}
+          {(item.type == "small" || item.type == "large") && " truck"}
         </Text>
 
         <Image
