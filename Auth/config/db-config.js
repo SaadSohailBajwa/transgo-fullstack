@@ -1,13 +1,12 @@
 module.exports = {
-  HOST: "localhost",
+  HOST: "transgo-db.postgres.database.azure.com",
   USER: "postgres",
 
-  DATABASE: "transgo",
-  PASSWORD: "5432",
+  DATABASE: "postgres",
+  PASSWORD: "Transgo1",
   PORT: 5432,
   DIALECT: "postgres",
 
-  
   pool: {
     max: 10, // Max of connections in the pool.
     min: 0, // Min of idle connections in the pool.

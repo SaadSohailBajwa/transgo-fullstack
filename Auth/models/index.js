@@ -3,23 +3,26 @@ const { Sequelize, DataTypes } = require("sequelize");
 //const {sequelize, DataTypes, Sequelize} = require('sequelize');
 
 const sequelize = new Sequelize(
-    dbConfig.DATABASE,
-    dbConfig.USER,
-    dbConfig.PASSWORD,
-    {
-        host: dbConfig.HOST,
-        dialect: dbConfig.DIALECT,
-        
+  dbConfig.DATABASE,
+  dbConfig.USER,
+  dbConfig.PASSWORD,
+  {
+    host: dbConfig.HOST,
+    dialect: dbConfig.DIALECT,
 
-        pool:{
-            max: dbConfig.pool.max,
-            min: dbConfig.pool.min,
-            acquire: dbConfig.pool.acquire,
-            idle: dbConfig.pool.idle
-        }
-    }
-    
-)
+    pool: {
+      max: dbConfig.pool.max,
+      min: dbConfig.pool.min,
+      acquire: dbConfig.pool.acquire,
+      idle: dbConfig.pool.idle,
+    },
+    dialectOptions: {
+      encrypt: true,
+      ssl: true,
+    },
+    logging: console.log,
+  }
+);
 
 // to authenticate if connection to database has been established or not
 
