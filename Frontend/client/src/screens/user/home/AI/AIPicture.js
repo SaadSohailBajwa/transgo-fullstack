@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image,ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../../../components/buttons/BackButton";
@@ -70,15 +70,18 @@ const AIPicture = () => {
   const { userDistance, userStartLocation } = useSelector(
     (state) => state.userLocation
   );
+  const [noRide,setNoRide] = useState(false)
   const [image, setImage] = useState();
   const [result, setResult] = useState(null);
   const [rideType, setRideType] = useState(null);
+  const [activity,setActivity] = useState(false)
   const { nearestDrivers, rideObject } = useSelector((state) => state.data);
 
   const saveImage = async (image) => {
     console.log("SAVING IMAGE!");
     setImage(image.assets[0].uri);
     try {
+      setActivity(true)
       const base64Content = await FileSystem.readAsStringAsync(
         image.assets[0].uri,
         {
@@ -119,6 +122,7 @@ const AIPicture = () => {
 
       setResult(AIText);
       setRideType(determineRideType(AIText))
+      setActivity(false)
     } catch (err) {
       console.log("Error inside saveImage in AIPicture", err);
     }
@@ -190,11 +194,12 @@ const AIPicture = () => {
           },
         }
       );
-      if (response.status === 200) {
+      if (response?.data?.[0]) {
         dispatch(setNearestDrivers([response.data?.[0]]));
         console.log(response.data?.[0])
         navigation.navigate("SelectDriver");
       } else if (response.status === 403) {
+        setNoRide(true)
       }
 
       console.log("he;o", nearestDrivers);
@@ -222,15 +227,25 @@ const AIPicture = () => {
       />
 
       <View style={styles.innerContainer}>
-        <Text style={styles.title}>AI Picture</Text>
+        {!image && (
+          <Text style={styles.title}>
+            Please take or upload picture of the object you want to move :)
+          </Text>
+        )}
         {image && <Image style={styles.image} source={{ uri: image }} />}
-        {image && (
+        {result && image ? (
           <TouchableOpacity style={styles.confirmButton} onPress={searchDriver}>
             <MaterialCommunityIcons name="check" size={24} color="white" />
-            <Text style={styles.confirmButtonText}>Confirm Picture</Text>
+            <Text style={styles.confirmButtonText}>Find {rideType}</Text>
           </TouchableOpacity>
+        ) : (
+          image && <Text>Please wait while we do our Magic!</Text>
         )}
-        {result && <Text>{result} ride type: {determineRideType(result)} rideType state: {rideType}</Text>}
+        {noRide && (
+          <Text style={styles.title}>
+            NO Driver available right now in your area. Please try again later
+          </Text>
+        )}
       </View>
 
       <View style={styles.bottomButtonsContainer}>

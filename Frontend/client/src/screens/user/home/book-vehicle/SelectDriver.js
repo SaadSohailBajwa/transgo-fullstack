@@ -55,6 +55,7 @@ const DATA = [
 const SelectDriver = () => {
   const { userDistance,userStartLocation,userDestinationLocation } = useSelector((state) => state.userLocation);
   const {firstName,id} = useSelector((state)=>state.token)
+  const {rideMode } = useSelector((state) => state.mode)
   const { nearestDrivers,rideDriverId,rideShipmentId } = useSelector((state) => state.data);
   const [selected, setSelected] = useState(null);
   const [rideType, setRideType] = useState(null);
@@ -130,21 +131,21 @@ const SelectDriver = () => {
     <TouchableOpacity
       onPress={() => {
         setSelected((selected) => item);
-        setRideType(item.firstname);
+        setRideType(item?.firstname);
         console.log("ride firstname: " + rideType);
         console.log("selected driver id: ", selected?.driver_id);
       }}
       style={[
         styles.itemContainer,
-        selected?.license_plate === item.license_plate && styles.selectedItem,
+        selected?.license_plate === item?.license_plate && styles.selectedItem,
       ]}
     >
       <View style={styles.itemDetails}>
         <View style={styles.textContainer}>
           <Text style={styles.label}>License Plate:</Text>
-          <Text style={styles.value}>{item.license_plate.toUpperCase()}</Text>
+          <Text style={styles.value}>{item?.license_plate.toUpperCase()}</Text>
           <Text style={styles.label}>First Name:</Text>
-          <Text style={styles.value}>{item.firstname.toUpperCase()}</Text>
+          <Text style={styles.value}>{item?.firstname.toUpperCase()}</Text>
         </View>
         <View>
           <Image
@@ -153,7 +154,7 @@ const SelectDriver = () => {
           />
           <View style={styles.ratingContainer}>
             <Text style={styles.label}>Rating:</Text>
-            <Text style={styles.value}>{calculateRating(item.rating)}</Text>
+            <Text style={styles.value}>{calculateRating(item?.rating)}</Text>
           </View>
         </View>
       </View>
@@ -174,7 +175,12 @@ const SelectDriver = () => {
         <BackButton onPress={
           ()=>{
             socket.disconnect()
-            navigation.navigate("RideType")
+            if(rideMode === "ai"){
+              navigation.navigate("AIPicture")
+            }else{
+              navigation.navigate("RideType")
+            }
+            
           }
       }
       title={"Select Driver"}/>
@@ -192,7 +198,7 @@ const SelectDriver = () => {
         
         <FlatList
           data={nearestDrivers}
-          keyExtractor={(item) => item.license_plate}
+          keyExtractor={(item) => item?.license_plate}
           renderItem={renderItem}
         />
 
