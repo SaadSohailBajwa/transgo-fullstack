@@ -11,7 +11,8 @@ const RideMap = () => {
     userCurrentLocation,
     userStartLocation,
     userDestinationLocation,
-    userDistance,driverCurrentLocation,
+    userDistance,
+    driverCurrentLocation,
   } = useSelector((state) => state.userLocation);
   const dispatch = useDispatch();
 
@@ -23,17 +24,21 @@ const RideMap = () => {
       return;
     }
     if (!userDestinationLocation) {
-      mapRef.current.fitToSuppliedMarkers(["start", "destination","driver"], {
+      mapRef.current.fitToSuppliedMarkers(["start", "destination", "driver"], {
         edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
       });
       return;
     }
 
     // console.log("value of location changed");
-    mapRef.current.fitToSuppliedMarkers(["start", "destination","driver"], {
+    mapRef.current.fitToSuppliedMarkers(["start", "destination", "driver"], {
       edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
     });
-  }, [userStartLocation, userDestinationLocation?.location?.lat,driverCurrentLocation]);
+  }, [
+    userStartLocation,
+    userDestinationLocation?.location?.lat,
+    driverCurrentLocation,
+  ]);
 
   useEffect(() => {
     if (!userStartLocation || !userDestinationLocation) {
@@ -48,7 +53,7 @@ const RideMap = () => {
         dispatch(setUserDistance(response?.data?.rows[0].elements[0]));
         console.log(userDistance?.distance?.text);
       } catch (err) {
-        console.log("error in getTravel time :",err);
+        console.log("error in getTravel time :", err);
       }
     };
     getTravelTime();
@@ -59,7 +64,7 @@ const RideMap = () => {
       <MapView
         ref={mapRef}
         style={{ flex: 1 }}
-        mapType="mutedStandard"
+        mapType="standard"
         maxZoomLevel={18}
         initialRegion={{
           latitude: userCurrentLocation?.location.lat || "31.4806",

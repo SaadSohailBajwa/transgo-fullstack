@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "client",
-    "slug": "client",
+    "slug": "test",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["*/"],
     "ios": {
       "supportsTablet": true,
       "splash": {
@@ -27,6 +25,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBO5Ejbe9ke00K0BVdD1prI24iDIu0klq4"
+        }
+      },
       "package": "com.saadsohailbajwa.client"
     },
     "web": {
@@ -34,8 +37,19 @@
     },
     "extra": {
       "eas": {
-        "projectId": "ea4f08bd-e9c2-418a-a2e1-40357cae7c5f"
+        "projectId": "e7b53278-898c-46e0-bd7c-3fd22081382d"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
+    "owner": "ushahzad"
   }
 }

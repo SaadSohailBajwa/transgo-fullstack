@@ -5,24 +5,23 @@ import MapViewDirections from "react-native-maps-directions";
 
 import MapView, { Marker } from "react-native-maps";
 
-
-
 const DriverMap = ({ navigation }) => {
   const { token, firstName } = useSelector((state) => state.token);
-  const { userCurrentLocation, userDestinationLocation } =
-    useSelector((state) => state.userLocation);
-  
-    const {rideData} = useSelector(state=>state.data)
-    const startLocation = {
-      description: "Start location",
-      latitude: parseFloat(rideData?.startLat), // String representation of latitude
-      longitude: parseFloat(rideData?.startLng), // String representation of longitude
-    };
-    const destinationLocation = {
-      description: "Destination location",
-      latitude: parseFloat(rideData?.destinationLat), // String representation of latitude
-      longitude: parseFloat(rideData?.destinationLng), // String representation of longitude
-    };
+  const { userCurrentLocation, userDestinationLocation } = useSelector(
+    (state) => state.userLocation
+  );
+
+  const { rideData } = useSelector((state) => state.data);
+  const startLocation = {
+    description: "Start location",
+    latitude: parseFloat(rideData?.startLat), // String representation of latitude
+    longitude: parseFloat(rideData?.startLng), // String representation of longitude
+  };
+  const destinationLocation = {
+    description: "Destination location",
+    latitude: parseFloat(rideData?.destinationLat), // String representation of latitude
+    longitude: parseFloat(rideData?.destinationLng), // String representation of longitude
+  };
 
   const dispatch = useDispatch();
 
@@ -31,7 +30,7 @@ const DriverMap = ({ navigation }) => {
       <View style={styles.map}>
         <MapView
           style={{ flex: 1 }}
-          mapType="mutedStandard"
+          mapType="standard"
           maxZoomLevel={18}
           initialRegion={{
             latitude: userCurrentLocation?.location?.lat,
