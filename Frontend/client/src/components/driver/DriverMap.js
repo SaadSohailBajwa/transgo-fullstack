@@ -83,7 +83,7 @@ const DriverMap = ({ navigation }) => {
             <MapViewDirections
               origin={startLocation}
               destination={destinationLocation}
-              apikey={process.env.GOOGLE_MAPS_APIKEY}
+              apikey={"AIzaSyBO5Ejbe9ke00K0BVdD1prI24iDIu0klq4"}
               strokeWidth={5}
               strokeColor="#123b66"
             />

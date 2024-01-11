@@ -27,7 +27,7 @@ const DestinationLocation = ({ navigation }) => {
           nearbyPlacesAPI="GooglePlacesSearch"
           debounce={400}
           query={{
-            key: process.env.GOOGLE_MAPS_APIKEY,
+            key: "AIzaSyBO5Ejbe9ke00K0BVdD1prI24iDIu0klq4",
             language: "en",
           }}
           styles={{
@@ -89,4 +89,3 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
 });
-

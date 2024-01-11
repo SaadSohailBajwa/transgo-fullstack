@@ -45,7 +45,11 @@ const UserMap = () => {
     }
     const getTravelTime = async () => {
       try {
-        const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${userStartLocation.description}&destinations=${userDestinationLocation.description}&key=${process.env.GOOGLE_MAPS_APIKEY}`;
+        const URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${
+          userStartLocation.description
+        }&destinations=${
+          userDestinationLocation.description
+        }&key=${"AIzaSyBO5Ejbe9ke00K0BVdD1prI24iDIu0klq4"}`;
         const response = await axios.get(URL);
 
         console.log("response", response?.data?.rows[0].elements[0]);
@@ -84,7 +88,7 @@ const UserMap = () => {
           <MapViewDirections
             origin={userStartLocation.description}
             destination={userDestinationLocation.description}
-            apikey={process.env.GOOGLE_MAPS_APIKEY}
+            apikey={"AIzaSyBO5Ejbe9ke00K0BVdD1prI24iDIu0klq4"}
             strokeWidth={5}
             strokeColor="#123b66"
           />
