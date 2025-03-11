@@ -34,24 +34,6 @@ The TransGO Furniture Shifting App aims to:
 
 ---
 
-## 📷 **Screenshots**
-
-### 📱 Mobile App
-<p align="center">
-  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlJuRV7qXoC-YtMUMbPUBm_krFHGXs_5EKuS-mPJMjsFhDh51KtlB3Qo0Sd4IpvZPFLN4MPop4xqf3-XnY7cutUwIrQ52_Ij45HqVilX4iHQEOMnSOB4BQ=s1200" width="250"/>
-  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlJBpxFvb_FnIUunnbnbKsFhKXousjD8vuESeXzQSEGK9e5KcLLp-7UqgU6zRRnNN1_CZuzSCBJbELTCj_2jNsQssyC6WJhcS_cgEBbJ-TIplkp3P7F7yg=s1200" width="250"/>
-  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlLcoHO8CjO7u9q24EQgo3SP_kXkVd7smfQCiik8LKZ5gpC-fuaJzu7wP4DdhMoBFOYzxi2hLKwgm0RR8zeMcMU6ByOGiSwgrN5ZGzM27YEbxw7q054Q3w=s1200" width="250"/>
-  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlIvkLa28NanQtVuZmZFOc7HxDpCPVTXytZ65mIwEJ2prOL1KJXOJBHOM0eGRY1Xu_XY7dBtQLVJrxWfsDtF21T0TEbWoM-XagOIS7SfuCbkWCfMndDNqQ=s1200" width="250"/>
-  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlIvNDaPzd1JumxFIfV5s5HU8FYqj9sgJD6oTuhm6Lmc0TGeKxbiHWwpkthEB44rfgwEm2tcBDHXQFO8qc0DWyWyz_HCSY-fGZP3zBopH8-o7bg8riatdQ=s1200" width="250"/>
-</p>
-
-### 💻 Admin Panel
-<p align="center">
-  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/admin%20panel%20ss.jpeg" width="700"/>
-</p>
-
----
-
 ## 📂 **System Architecture**
 
 ### **System Diagram**
@@ -62,6 +44,24 @@ The TransGO Furniture Shifting App aims to:
 ### **Entity Relationship Diagram (ERD)**
 <p align="center">
   <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/diagram-export-3-11-2025-2_36_32-PM.png" width="700"/>
+</p>
+
+---
+
+## 📷 **Screenshots**
+
+### 📱 Mobile App
+<p align="center">
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss1.png" width="250"/>
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss2.png" width="250"/>
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss3.png" width="250"/>
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss4.png" width="250"/>
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss5.png" width="250"/>
+</p>
+
+### 💻 Admin Panel
+<p align="center">
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/admin%20panel%20ss.jpeg" width="700"/>
 </p>
 
 ---
