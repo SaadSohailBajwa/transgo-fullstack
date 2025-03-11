@@ -38,16 +38,16 @@ The TransGO Furniture Shifting App aims to:
 
 ### 📱 Mobile App
 <p align="center">
-  <img src="screenshots/mobile1.png" width="250"/>
-  <img src="screenshots/mobile2.png" width="250"/>
-  <img src="screenshots/mobile3.png" width="250"/>
-  <img src="screenshots/mobile4.png" width="250"/>
-  <img src="screenshots/mobile5.png" width="250"/>
+  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlJuRV7qXoC-YtMUMbPUBm_krFHGXs_5EKuS-mPJMjsFhDh51KtlB3Qo0Sd4IpvZPFLN4MPop4xqf3-XnY7cutUwIrQ52_Ij45HqVilX4iHQEOMnSOB4BQ=s1200" width="250"/>
+  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlJBpxFvb_FnIUunnbnbKsFhKXousjD8vuESeXzQSEGK9e5KcLLp-7UqgU6zRRnNN1_CZuzSCBJbELTCj_2jNsQssyC6WJhcS_cgEBbJ-TIplkp3P7F7yg=s1200" width="250"/>
+  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlLcoHO8CjO7u9q24EQgo3SP_kXkVd7smfQCiik8LKZ5gpC-fuaJzu7wP4DdhMoBFOYzxi2hLKwgm0RR8zeMcMU6ByOGiSwgrN5ZGzM27YEbxw7q054Q3w=s1200" width="250"/>
+  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlIvkLa28NanQtVuZmZFOc7HxDpCPVTXytZ65mIwEJ2prOL1KJXOJBHOM0eGRY1Xu_XY7dBtQLVJrxWfsDtF21T0TEbWoM-XagOIS7SfuCbkWCfMndDNqQ=s1200" width="250"/>
+  <img src="https://lh3.googleusercontent.com/keep-bbsk/AFgXFlIvNDaPzd1JumxFIfV5s5HU8FYqj9sgJD6oTuhm6Lmc0TGeKxbiHWwpkthEB44rfgwEm2tcBDHXQFO8qc0DWyWyz_HCSY-fGZP3zBopH8-o7bg8riatdQ=s1200" width="250"/>
 </p>
 
 ### 💻 Admin Panel
 <p align="center">
-  <img src="screenshots/admin.png" width="700"/>
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/admin%20panel%20ss.jpeg" width="700"/>
 </p>
 
 ---
@@ -61,14 +61,14 @@ The TransGO Furniture Shifting App aims to:
 
 ### **Entity Relationship Diagram (ERD)**
 <p align="center">
-  <img src="diagrams/erd.png" width="700"/>
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/diagram-export-3-11-2025-2_36_32-PM.png" width="700"/>
 </p>
 
 ---
 
 ## 📩 **Contact**
 📧 **Saad Sohail Bajwa** – [Email](mailto:saadsohailbajwa@gmail.com)  
-🔗 [GitHub](https://github.com/SaadSohailBajwa)  
+🔗 [Linkedin](https://www.linkedin.com/in/saadsohailbajwa)  
 
 ---
 
