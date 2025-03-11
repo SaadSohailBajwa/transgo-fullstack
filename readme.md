@@ -56,7 +56,7 @@ The TransGO Furniture Shifting App aims to:
 
 ### **System Diagram**
 <p align="center">
-  <img src="diagrams/system_diagram.png" width="700"/>
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/system%20diagram.png" width="700"/>
 </p>
 
 ### **Entity Relationship Diagram (ERD)**
