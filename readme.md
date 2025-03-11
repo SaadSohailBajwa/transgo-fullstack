@@ -56,7 +56,7 @@ The TransGO Furniture Shifting App aims to:
   <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss2.png" width="250"/>
   <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss3.png" width="250"/>
   <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss4.png" width="250"/>
-  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss5.png" width="250"/>
+  <img src="https://pub-4c6184a32362426baa9757e032fcd9ee.r2.dev/mobile%20ss5(2).png" width="250"/>
 </p>
 
 ### 💻 Admin Panel
